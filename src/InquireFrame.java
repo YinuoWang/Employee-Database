@@ -68,7 +68,7 @@ public class InquireFrame extends javax.swing.JFrame {
         wPYLabel = new java.awt.Label();
         hPWLabel = new java.awt.Label();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         modifyEN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

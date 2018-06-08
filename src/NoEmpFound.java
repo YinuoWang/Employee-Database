@@ -16,6 +16,7 @@ public class NoEmpFound extends javax.swing.JDialog {
     public NoEmpFound(java.awt.Frame parent){
         super(parent);
         initComponents();
+        setResizable(false);
     }
 
     /**
@@ -31,6 +32,8 @@ public class NoEmpFound extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(100, 100));
+        setMinimumSize(new java.awt.Dimension(100, 100));
 
         okButton.setText("OK");
         okButton.addActionListener(new java.awt.event.ActionListener() {
