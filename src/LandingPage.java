@@ -1,15 +1,16 @@
 
+import java.awt.event.MouseAdapter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import javafx.util.Pair;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
-/* wassup my man Yinuo Wang
-
 
 */
 
@@ -30,15 +31,6 @@ public class LandingPage extends javax.swing.JFrame {
         bucketCount = 5;
         hashTable = new MyHashTable(5);
         initComponents();
-        empTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = empTable.rowAtPoint(evt.getPoint());
-                if (empTable.getValueAt(row, 0) != null){
-                    searchEmpInFrame((int)empTable.getValueAt(row, 0));
-                }
-            }
-        });
     }
 
     /**
@@ -243,7 +235,10 @@ public class LandingPage extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -259,6 +254,31 @@ public class LandingPage extends javax.swing.JFrame {
         });
         empTable.setOpaque(false);
         tableScrollPane.setViewportView(empTable);
+        empTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = empTable.rowAtPoint(evt.getPoint());
+                searchEmpInFrame((int)empTable.getValueAt(row, 0));
+            }
+        });
+
+        empTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            int clicked = 0;
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int col = empTable.columnAtPoint(evt.getPoint());
+                if (clicked==0){
+                    clicked = 1;
+                }
+                else if (clicked == 1){
+                    clicked = 2;
+                }
+                else{ // if clicked == 2
+                    clicked = 1;
+                }
+                sortTable(col, clicked);
+            };
+        });
 
         displayHeading.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         displayHeading.setText("Employees Displayed");
@@ -621,7 +641,7 @@ public class LandingPage extends javax.swing.JFrame {
                 int curSX = Integer.parseInt(readEmp[3]);
                 int curWL = Integer.parseInt(readEmp[4]);
                 double curDR = Double.parseDouble(readEmp[5]);
-                if (readEmp[6]=="P"){
+                if (readEmp[6].equals("P")){
                     Double curHW = Double.parseDouble(readEmp[7]);
                     int curHPW = Integer.parseInt(readEmp[8]);
                     int curWPY = Integer.parseInt(readEmp[9]);
@@ -685,7 +705,47 @@ public class LandingPage extends javax.swing.JFrame {
         partTimeVSFullTime.setEnabledAt(1, false);
         partTimeVSFullTime.setSelectedIndex(2);
     }//GEN-LAST:event_radioButtonFTActionPerformed
+    
+    Comparator<Pair<Integer,String>> comp1 = (Pair<Integer,String> a, Pair<Integer,String> b) -> {
+        if (a.getKey().equals(b.getKey())){
+            return a.getValue().compareTo(b.getValue());
+        }
+        else{
+            return a.getKey().compareTo(b.getKey());
+        }
+    };
+    
+    Comparator<Pair<Integer,String>> comp2 = (Pair<Integer,String> a, Pair<Integer,String> b) -> {
+        if (a.getValue().equals(b.getValue())){
+            return a.getKey().compareTo(b.getKey());
+        }
+        else{
+            return a.getValue().compareTo(b.getValue());
+        }
+    };
 
+    private void sortTable(int col, int clicked){
+        int row = 0;
+        ArrayList<Pair<Integer,String>> empsList = new ArrayList<Pair<Integer,String>>();
+        while(!String.valueOf(empTable.getValueAt(row,0)).equals("")){
+            empsList.add(new Pair(Integer.valueOf(String.valueOf(empTable.getValueAt(row,0))),String.valueOf(empTable.getValueAt(row,1))));
+            row++;
+        }
+        if (col==0){
+            Collections.sort(empsList, comp1);
+        }
+        else{
+            Collections.sort(empsList, comp2);
+        }
+        if (clicked==2){
+            Collections.reverse(empsList);
+        }
+        for (int i=0; i<row; ++i){
+            empTable.setValueAt(empsList.get(i).getKey(),i,0);
+            empTable.setValueAt(empsList.get(i).getValue(),i,1);
+        }
+    }
+    
 //    /**
 //     * @param args the command line arguments
 //     */
