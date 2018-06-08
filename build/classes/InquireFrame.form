@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="editEmpType">
+    </Component>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="editTitle" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="eNLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="fNLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="lNLabel" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="modifyFN" max="32767" attributes="0"/>
+                          <Component id="modifyLN" max="32767" attributes="0"/>
+                          <Component id="modifyEN" min="-2" pref="115" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="sXLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="wLLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="dRLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="modifyWL" alignment="0" max="32767" attributes="0"/>
+                          <Component id="modifyDR" alignment="0" max="32767" attributes="0"/>
+                          <Component id="modifySX" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="wPYLabel" alignment="0" min="-2" pref="107" max="-2" attributes="0"/>
+                  <Component id="hWLabel" alignment="0" min="-2" pref="107" max="-2" attributes="0"/>
+                  <Component id="hPWLabel" alignment="0" min="-2" pref="107" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="editButtonPT" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifyHW" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
+                  <Component id="modifyWPY" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
+                  <Component id="modifyHPW" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="editButtonFT" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="modifyYS" min="-2" pref="118" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="ySLabel" min="-2" pref="107" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+              <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Component id="editTitle" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="eNLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifyEN" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="fNLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifyFN" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lNLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifyLN" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="sXLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifySX" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="wLLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifyWL" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="dRLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifyDR" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="editButtonPT" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="editButtonFT" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="modifyYS" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="ySLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="modifyHW" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="hWLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="modifyHPW" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="modifyWPY" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="wPYLabel" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="hPWLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="deleteButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JTextField" name="modifyEN">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyENActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="modifyFN">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyFNActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="modifyLN">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyLNActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="editTitle">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="24" style="0"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Employee Edit"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="eNLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Emplyoee Num"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="fNLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="First Name"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lNLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Last Name"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="saveButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Save"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="deleteButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Delete"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="modifySX">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifySXActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="modifyWL">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyWLActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="modifyDR">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyDRActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="sXLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sex"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="wLLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Work Location"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="dRLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Deduction Rate"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JRadioButton" name="editButtonPT">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="editEmpType"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Part-Time"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JRadioButton" name="editButtonFT">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="editEmpType"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Full-Time"/>
+      </Properties>
+    </Component>
+    <Component class="java.awt.TextField" name="modifyYS">
+    </Component>
+    <Component class="java.awt.Label" name="ySLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Yearly Salary"/>
+      </Properties>
+    </Component>
+    <Component class="java.awt.TextField" name="modifyHW">
+    </Component>
+    <Component class="java.awt.TextField" name="modifyWPY">
+    </Component>
+    <Component class="java.awt.TextField" name="modifyHPW">
+    </Component>
+    <Component class="java.awt.Label" name="hWLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Hourly Wage"/>
+      </Properties>
+    </Component>
+    <Component class="java.awt.Label" name="wPYLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Weeks Per Year"/>
+      </Properties>
+    </Component>
+    <Component class="java.awt.Label" name="hPWLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Hours Per Week"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

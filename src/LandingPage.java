@@ -12,8 +12,6 @@ import javafx.util.Pair;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-*/
-
 /**
  *
  * @author yinuo
@@ -240,10 +238,6 @@ public class LandingPage extends javax.swing.JFrame {
             boolean[] canEdit = new boolean [] {
                 false, false
             };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
