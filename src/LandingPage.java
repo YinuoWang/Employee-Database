@@ -12,6 +12,8 @@ import javafx.util.Pair;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+*/
+
 /**
  *
  * @author yinuo
@@ -41,6 +43,9 @@ public class LandingPage extends javax.swing.JFrame {
     private void initComponents() {
 
         employeeType = new javax.swing.ButtonGroup();
+        InputErrorMsg = new javax.swing.JDialog();
+        InputErrorMsgButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         searchEN = new javax.swing.JTextField();
         searchHeading = new javax.swing.JLabel();
@@ -60,21 +65,61 @@ public class LandingPage extends javax.swing.JFrame {
         addDR = new java.awt.TextField();
         labelSX = new java.awt.Label();
         labelWL = new java.awt.Label();
-        labelYS = new java.awt.Label();
         radioButtonPT = new javax.swing.JRadioButton();
         radioButtonFT = new javax.swing.JRadioButton();
-        addYS = new java.awt.TextField();
         labelDR = new java.awt.Label();
-        addHW = new java.awt.TextField();
-        addWPY = new java.awt.TextField();
-        addHPW = new java.awt.TextField();
-        labelHW = new java.awt.Label();
-        labelWPY = new java.awt.Label();
-        labelHPW = new java.awt.Label();
         tableScrollPane = new javax.swing.JScrollPane();
         empTable = new javax.swing.JTable();
         displayHeading = new javax.swing.JLabel();
         refreshButton = new javax.swing.JButton();
+        partTimeVSFullTime = new javax.swing.JTabbedPane();
+        fillerTab = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        partTimeTab = new javax.swing.JPanel();
+        labelHW = new java.awt.Label();
+        addHW = new java.awt.TextField();
+        labelHPW = new java.awt.Label();
+        addHPW = new java.awt.TextField();
+        labelWPY = new java.awt.Label();
+        addWPY = new java.awt.TextField();
+        fullTimeTab = new javax.swing.JPanel();
+        labelYS = new java.awt.Label();
+        addYS = new java.awt.TextField();
+
+        InputErrorMsg.setMinimumSize(new java.awt.Dimension(272, 207));
+        InputErrorMsg.setResizable(false);
+
+        InputErrorMsgButton.setText("Got it");
+        InputErrorMsgButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputErrorMsgButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Error! You've done a funny :(");
+
+        javax.swing.GroupLayout InputErrorMsgLayout = new javax.swing.GroupLayout(InputErrorMsg.getContentPane());
+        InputErrorMsg.getContentPane().setLayout(InputErrorMsgLayout);
+        InputErrorMsgLayout.setHorizontalGroup(
+            InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputErrorMsgLayout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addGroup(InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(InputErrorMsgLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(InputErrorMsgButton)))
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+        InputErrorMsgLayout.setVerticalGroup(
+            InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputErrorMsgLayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(InputErrorMsgButton)
+                .addGap(60, 60, 60))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,10 +184,13 @@ public class LandingPage extends javax.swing.JFrame {
 
         labelWL.setText("Work Location");
 
-        labelYS.setText("Yearly Salary");
-
         employeeType.add(radioButtonPT);
         radioButtonPT.setText("Part-Time");
+        radioButtonPT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonPTActionPerformed(evt);
+            }
+        });
 
         employeeType.add(radioButtonFT);
         radioButtonFT.setText("Full-Time");
@@ -153,12 +201,6 @@ public class LandingPage extends javax.swing.JFrame {
         });
 
         labelDR.setText("Deduction Rate");
-
-        labelHW.setText("Hourly Wage");
-
-        labelWPY.setText("Weeks Per Year");
-
-        labelHPW.setText("Hours Per Week");
 
         empTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -198,6 +240,9 @@ public class LandingPage extends javax.swing.JFrame {
             boolean[] canEdit = new boolean [] {
                 false, false
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
@@ -207,6 +252,7 @@ public class LandingPage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        empTable.setOpaque(false);
         tableScrollPane.setViewportView(empTable);
         empTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -244,6 +290,104 @@ public class LandingPage extends javax.swing.JFrame {
             }
         });
 
+        partTimeVSFullTime.setEnabled(false);
+
+        fillerTab.setEnabled(false);
+
+        jLabel2.setText("Please select either Part-Time or Full-Time above");
+
+        javax.swing.GroupLayout fillerTabLayout = new javax.swing.GroupLayout(fillerTab);
+        fillerTab.setLayout(fillerTabLayout);
+        fillerTabLayout.setHorizontalGroup(
+            fillerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fillerTabLayout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addGap(0, 53, Short.MAX_VALUE))
+        );
+        fillerTabLayout.setVerticalGroup(
+            fillerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fillerTabLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jLabel2)
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+
+        partTimeVSFullTime.addTab("", fillerTab);
+
+        labelHW.setText("Hourly Wage");
+
+        labelHPW.setText("Hours Per Week");
+
+        labelWPY.setText("Weeks Per Year");
+
+        javax.swing.GroupLayout partTimeTabLayout = new javax.swing.GroupLayout(partTimeTab);
+        partTimeTab.setLayout(partTimeTabLayout);
+        partTimeTabLayout.setHorizontalGroup(
+            partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(partTimeTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelHW, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelHPW, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelWPY, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addHW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addWPY, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addHPW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 34, Short.MAX_VALUE))
+        );
+        partTimeTabLayout.setVerticalGroup(
+            partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, partTimeTabLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelHW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addHW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelHPW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addHPW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        partTimeVSFullTime.addTab("Part-Time", partTimeTab);
+
+        labelYS.setText("Yearly Salary");
+
+        addYS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addYSActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout fullTimeTabLayout = new javax.swing.GroupLayout(fullTimeTab);
+        fullTimeTab.setLayout(fullTimeTabLayout);
+        fullTimeTabLayout.setHorizontalGroup(
+            fullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fullTimeTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelYS, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(addYS, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
+        );
+        fullTimeTabLayout.setVerticalGroup(
+            fullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fullTimeTabLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(fullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(88, Short.MAX_VALUE))
+        );
+
+        partTimeVSFullTime.addTab("Full-Time", fullTimeTab);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -259,62 +403,45 @@ public class LandingPage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(412, 412, 412)
+                        .addGap(106, 106, 106)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(loadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(217, 217, 217)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(partTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(109, 109, 109)
+                                .addComponent(AddEmp))))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(484, 484, 484)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(addEN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(addFN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(addLN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(addSX, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(addWL, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(labelLN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelFN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelEN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(addHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelWPY, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelHW, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelHPW, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(240, 240, 240)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(labelSX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(labelWL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(labelDR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(radioButtonPT)
-                                            .addComponent(addHW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(addWPY, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(addHPW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(20, 20, 20)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(radioButtonFT)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(addYS, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(labelYS, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(113, 113, 113)
-                                .addComponent(AddEmp))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(73, 73, 73)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(loadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(28, 28, 28)))
+                                        .addComponent(radioButtonPT)
+                                        .addGap(67, 67, 67)
+                                        .addComponent(radioButtonFT)))
+                                .addGap(24, 24, 24))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(addEN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addFN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(32, 32, 32)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(labelLN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelFN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelEN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelSX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelWL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelDR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(displayHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,11 +465,6 @@ public class LandingPage extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(displayHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchEN, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addComponent(SearchButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,35 +492,27 @@ public class LandingPage extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(labelDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(19, 19, 19)
+                                .addGap(22, 22, 22)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(radioButtonPT)
                                     .addComponent(radioButtonFT))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(addYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addHW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelHW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(addHPW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(addWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(labelWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(48, 48, 48)
-                                        .addComponent(AddEmp))
-                                    .addComponent(labelHPW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(loadButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(saveButton))
+                                .addComponent(partTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(AddEmp))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(34, 34, 34)
-                                .addComponent(refreshButton)))))
+                                .addComponent(refreshButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchEN, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
+                        .addComponent(SearchButton)
+                        .addGap(121, 121, 121)
+                        .addComponent(loadButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveButton)))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
@@ -425,9 +539,26 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }
     
+    public boolean isStringInt(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        } 
+        catch (NumberFormatException ex){
+            return false;
+        }
+    }
+    
+    
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
+        String entry = searchEN.getText();
+        if (isStringInt(entry) == true){
         searchEmpInFrame(Integer.parseInt(searchEN.getText()));
         searchEN.setText("");
+        }
+        else {
+            InputErrorMsg.setVisible(true);
+        }
     }//GEN-LAST:event_SearchButtonActionPerformed
 
     private void AddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddEmpActionPerformed
@@ -548,8 +679,31 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
+    private void InputErrorMsgButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputErrorMsgButtonActionPerformed
+            InputErrorMsg.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputErrorMsgButtonActionPerformed
+
+    private void addYSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addYSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addYSActionPerformed
+    
+    private void radioButtonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonPTActionPerformed
+        // TODO add your handling code here:
+        partTimeVSFullTime.setEnabled(true);
+        partTimeVSFullTime.setEnabledAt(0, false);
+        partTimeVSFullTime.setEnabledAt(1, true);
+        partTimeVSFullTime.setEnabledAt(2, false);
+        partTimeVSFullTime.setSelectedIndex(1);
+    }//GEN-LAST:event_radioButtonPTActionPerformed
+
     private void radioButtonFTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonFTActionPerformed
         // TODO add your handling code here:
+        partTimeVSFullTime.setEnabled(true);
+        partTimeVSFullTime.setEnabledAt(0, false);
+        partTimeVSFullTime.setEnabledAt(2, true);
+        partTimeVSFullTime.setEnabledAt(1, false);
+        partTimeVSFullTime.setSelectedIndex(2);
     }//GEN-LAST:event_radioButtonFTActionPerformed
     
     Comparator<Pair<Integer,String>> comp1 = (Pair<Integer,String> a, Pair<Integer,String> b) -> {
@@ -629,6 +783,8 @@ public class LandingPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddEmp;
+    private javax.swing.JDialog InputErrorMsg;
+    private javax.swing.JButton InputErrorMsgButton;
     private javax.swing.JButton SearchButton;
     private java.awt.TextField addDR;
     private java.awt.TextField addEN;
@@ -644,6 +800,10 @@ public class LandingPage extends javax.swing.JFrame {
     private javax.swing.JLabel displayHeading;
     private javax.swing.JTable empTable;
     private javax.swing.ButtonGroup employeeType;
+    private javax.swing.JPanel fillerTab;
+    private javax.swing.JPanel fullTimeTab;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private java.awt.Label labelDR;
     private java.awt.Label labelEN;
     private java.awt.Label labelFN;
@@ -655,6 +815,8 @@ public class LandingPage extends javax.swing.JFrame {
     private java.awt.Label labelWPY;
     private java.awt.Label labelYS;
     private javax.swing.JButton loadButton;
+    private javax.swing.JPanel partTimeTab;
+    private javax.swing.JTabbedPane partTimeVSFullTime;
     private javax.swing.JRadioButton radioButtonFT;
     private javax.swing.JRadioButton radioButtonPT;
     private javax.swing.JButton refreshButton;
