@@ -202,42 +202,43 @@ public class LandingPage extends javax.swing.JFrame {
 
         empTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Employee Number", "Name"
+                "Employee Number", "First Name", "Last Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
+
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
@@ -247,6 +248,7 @@ public class LandingPage extends javax.swing.JFrame {
             }
         });
         empTable.setOpaque(false);
+        empTable.getTableHeader().setReorderingAllowed(false);
         tableScrollPane.setViewportView(empTable);
         empTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -257,20 +259,20 @@ public class LandingPage extends javax.swing.JFrame {
         });
 
         empTable.getTableHeader().addMouseListener(new MouseAdapter() {
-            int clicked = 0;
+            int[] clicked = {0,0,0};
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int col = empTable.columnAtPoint(evt.getPoint());
-                if (clicked==0){
-                    clicked = 1;
+                if (clicked[col]==0){
+                    clicked[col] = 1;
                 }
-                else if (clicked == 1){
-                    clicked = 2;
+                else if (clicked[col] == 1){
+                    clicked[col] = 2;
                 }
-                else{ // if clicked == 2
-                    clicked = 1;
+                else{ // if clicked[col] == 2
+                    clicked[col] = 1;
                 }
-                sortTable(col, clicked);
+                sortTable(col, clicked[col]);
             };
         });
 
@@ -399,7 +401,7 @@ public class LandingPage extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(loadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(217, 217, 217)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -554,7 +556,7 @@ public class LandingPage extends javax.swing.JFrame {
             InputErrorMsg.setVisible(true);
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
-
+    
     private void AddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddEmpActionPerformed
         // add functionality for more than just integers
         int eN = Integer.parseInt(addEN.getText());
@@ -667,7 +669,8 @@ public class LandingPage extends javax.swing.JFrame {
             ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
                 empTable.setValueAt(currentAList.get(k).getEmployeeNum(),row,0);
-                empTable.setValueAt(currentAList.get(k).getFirstName() + " " + currentAList.get(k).getLastName(), row, 1);
+                empTable.setValueAt(currentAList.get(k).getFirstName(), row, 1);
+                empTable.setValueAt(currentAList.get(k).getLastName(), row, 2);
                 row++;
             }
         }
@@ -700,43 +703,74 @@ public class LandingPage extends javax.swing.JFrame {
         partTimeVSFullTime.setSelectedIndex(2);
     }//GEN-LAST:event_radioButtonFTActionPerformed
     
-    Comparator<Pair<Integer,String>> comp1 = (Pair<Integer,String> a, Pair<Integer,String> b) -> {
-        if (a.getKey().equals(b.getKey())){
-            return a.getValue().compareTo(b.getValue());
+    Comparator<String[]> compEN = (String[] a, String[] b) -> {
+        int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
+        if (Ai == Bi){
+            if (a[1].compareTo(b[1])==0){
+                return a[2].compareTo(b[2]);
+            }
+            return a[1].compareTo(b[1]);
         }
         else{
-            return a.getKey().compareTo(b.getKey());
+            return Ai-Bi;
         }
     };
     
-    Comparator<Pair<Integer,String>> comp2 = (Pair<Integer,String> a, Pair<Integer,String> b) -> {
-        if (a.getValue().equals(b.getValue())){
-            return a.getKey().compareTo(b.getKey());
+    Comparator<String[]> compFN = (String[] a, String[] b) -> {
+        int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
+        if (a[1].equals(b[1])){
+            if (a[2].equals(b[2])){
+                return Ai-Bi;
+            }
+            return a[2].compareTo(b[2]);
         }
         else{
-            return a.getValue().compareTo(b.getValue());
+            return a[1].compareTo(b[1]);
+        }
+    };
+    
+    Comparator<String[]> compLN = (String[] a, String[] b) -> {
+        int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
+        if (a[2].equals(b[2])){
+            if (a[1].equals(b[1])){
+                return Ai-Bi;
+            }
+            return a[1].compareTo(b[1]);
+        }
+        else{
+            return a[2].compareTo(b[2]);
         }
     };
 
     private void sortTable(int col, int clicked){
         int row = 0;
-        ArrayList<Pair<Integer,String>> empsList = new ArrayList<Pair<Integer,String>>();
+        ArrayList<String[]> empsList = new ArrayList();
         while(!String.valueOf(empTable.getValueAt(row,0)).equals("")){
-            empsList.add(new Pair(Integer.valueOf(String.valueOf(empTable.getValueAt(row,0))),String.valueOf(empTable.getValueAt(row,1))));
+            String[] empToAdd = new String[3];
+            empToAdd[0]=String.valueOf(empTable.getValueAt(row,0));
+            empToAdd[1]=String.valueOf(empTable.getValueAt(row,1));
+            empToAdd[2]=String.valueOf(empTable.getValueAt(row,2));
+            empsList.add(empToAdd);
             row++;
         }
-        if (col==0){
-            Collections.sort(empsList, comp1);
-        }
-        else{
-            Collections.sort(empsList, comp2);
+        switch (col) {
+            case 0:
+                Collections.sort(empsList, compEN);
+                break;
+            case 1:
+                Collections.sort(empsList, compFN);
+                break;
+            default:
+                Collections.sort(empsList, compLN);
+                break;
         }
         if (clicked==2){
             Collections.reverse(empsList);
         }
         for (int i=0; i<row; ++i){
-            empTable.setValueAt(empsList.get(i).getKey(),i,0);
-            empTable.setValueAt(empsList.get(i).getValue(),i,1);
+            empTable.setValueAt(empsList.get(i)[0],i,0);
+            empTable.setValueAt(empsList.get(i)[1],i,1);
+            empTable.setValueAt(empsList.get(i)[2],i,2);
         }
     }
     
