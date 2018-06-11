@@ -10,8 +10,8 @@ public class InquireFrame extends javax.swing.JFrame {
     protected MyHashTable currentHT;
     
     public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT) {
-        initComponents(); 
-       currentEmp = cEmp;
+        initComponents();
+        currentEmp = cEmp;
         currentHT = cHT;
         modifyEN.setText(Integer.toString(currentEmp.getEmployeeNum()));
         modifyFN.setText(currentEmp.getFirstName());
