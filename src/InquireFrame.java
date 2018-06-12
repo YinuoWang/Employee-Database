@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /**
  *
  * @author yinuo
@@ -11,7 +14,7 @@ public class InquireFrame extends javax.swing.JFrame {
     
     public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT) {
         initComponents(); 
-       currentEmp = cEmp;
+        currentEmp = cEmp;
         currentHT = cHT;
         modifyEN.setText(Integer.toString(currentEmp.getEmployeeNum()));
         modifyFN.setText(currentEmp.getFirstName());
@@ -275,6 +278,15 @@ public class InquireFrame extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         int saveEN = Integer.parseInt(modifyEN.getText());
+        for (int i=0; i<currentHT.bucketCount; ++i){
+            ArrayList<EmployeeInfo> currentAList = currentHT.buckets[i];
+            for (int k=0; k<currentAList.size(); ++k){
+                if (saveEN == currentAList.get(k).getEmployeeNum()){
+                    // display box here
+                    return;
+                }
+            }
+        }
         String saveFN = modifyFN.getText();
         String saveLN = modifyLN.getText();
         int saveSX = Integer.parseInt(modifySX.getText());
