@@ -14,7 +14,6 @@ public class EmployeeInfo {
         workLocation = wL;
         deductionRate = dR;
     }
-
     
     public int getEmployeeNum(){
         return employeeNum;
