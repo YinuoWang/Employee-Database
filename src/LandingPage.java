@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import javafx.util.Pair;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -558,8 +559,16 @@ public class LandingPage extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchButtonActionPerformed
     
     private void AddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddEmpActionPerformed
-        // add functionality for more than just integers
         int eN = Integer.parseInt(addEN.getText());
+        for (int i=0; i<bucketCount; ++i){
+            ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
+            for (int k=0; k<currentAList.size(); ++k){
+                if (isDuplicate(eN, currentAList.get(k))){
+                    // display box here
+                    return;
+                }
+            }
+        }
         String fN = addFN.getText();
         String lN = addLN.getText();
         int sX = Integer.parseInt(addSX.getText());
@@ -627,11 +636,20 @@ public class LandingPage extends javax.swing.JFrame {
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try{
             BufferedReader in = new BufferedReader(new FileReader("saveFile.txt"));
-            String eN;
-            while((eN = in.readLine()) != null){
-                // should i wipe the current hashtable or just add new stuff
-                String[] readEmp = eN.split(",");
+            String empInfo;
+            HashSet<Integer> empList = new HashSet();
+            for (int i=0; i<bucketCount; ++i){
+                ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
+                for (int k=0; k<currentAList.size(); ++k){
+                    empList.add(currentAList.get(k).getEmployeeNum());
+                }
+            }
+            while((empInfo= in.readLine()) != null){
+                String[] readEmp = empInfo.split(",");
                 int curEN = Integer.parseInt(readEmp[0]);
+                if (empList.contains(curEN)){
+                    continue;
+                }
                 String curFN = readEmp[1];
                 String curLN = readEmp[2];
                 int curSX = Integer.parseInt(readEmp[3]);
@@ -772,6 +790,13 @@ public class LandingPage extends javax.swing.JFrame {
             empTable.setValueAt(empsList.get(i)[1],i,1);
             empTable.setValueAt(empsList.get(i)[2],i,2);
         }
+    }
+    
+    protected boolean isDuplicate(int currentEN, EmployeeInfo existing){
+        if (currentEN == existing.getEmployeeNum()){
+            return true;
+        }
+        return false;
     }
     
 //    /**

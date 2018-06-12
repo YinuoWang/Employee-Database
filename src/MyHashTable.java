@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class MyHashTable {
     protected ArrayList<EmployeeInfo>[] buckets;       // Array of ArrayLists for to represent the HashTable
-    private int bucketCount;                           // The number of buckets in the HashTable
+    protected int bucketCount;                         // The number of buckets in the HashTable
 
     // Constructor for HashTable, parameter is the desired number of buckets
     public MyHashTable(int k){
