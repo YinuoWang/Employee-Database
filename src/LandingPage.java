@@ -1,4 +1,4 @@
-
+import java.awt.event.MouseAdapter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import javafx.util.Pair;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,8 +22,6 @@ public class LandingPage extends javax.swing.JFrame {
     protected MyHashTable hashTable;
     protected int bucketCount;
 
-    
-    
     /**
      * Creates new form LandingPage
      */
@@ -32,15 +29,6 @@ public class LandingPage extends javax.swing.JFrame {
         bucketCount = 5;
         hashTable = new MyHashTable(5);
         initComponents();
-        empTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = empTable.rowAtPoint(evt.getPoint());
-                if (empTable.getValueAt(row, 0) != null){
-                    searchEmpInFrame((int)empTable.getValueAt(row, 0));
-                }
-            }
-        });
     }
 
     /**
@@ -328,7 +316,9 @@ public class LandingPage extends javax.swing.JFrame {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = empTable.rowAtPoint(evt.getPoint());
-                searchEmpInFrame((int)empTable.getValueAt(row, 0));
+                if (empTable.getValueAt(row, 0) != null && String.valueOf(empTable.getValueAt(row, 0)) != ""){
+                    searchEmpInFrame((int)empTable.getValueAt(row, 0));
+                }
             }
         });
 
@@ -614,13 +604,10 @@ public class LandingPage extends javax.swing.JFrame {
                                         .addComponent(labelSX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(labelWL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(labelDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(20, 20, 20)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(radioButtonPT)
@@ -651,6 +638,14 @@ public class LandingPage extends javax.swing.JFrame {
         
     }
     
+    private void employeeMaleActionPerformed(java.awt.event.ActionEvent evt){
+        
+    }
+    
+     private void addENKeyTyped(java.awt.event.KeyEvent evt){
+        
+    }
+    
     private void searchEmpInFrame(int eN){
         EmployeeInfo employeeFound = hashTable.searchEmployee(eN);
         if (employeeFound == null){
@@ -658,7 +653,7 @@ public class LandingPage extends javax.swing.JFrame {
             noEmp.setVisible(true);
         }
         else{
-            InquireFrame iFrame = new InquireFrame(employeeFound, hashTable);
+            InquireFrame iFrame = new InquireFrame(employeeFound, hashTable, this);
             iFrame.setVisible(true);
         }
     }
@@ -682,7 +677,6 @@ public class LandingPage extends javax.swing.JFrame {
             return false;
         }
     }
-    
     
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
         String searchEntry = searchEN.getText();
@@ -713,6 +707,7 @@ public class LandingPage extends javax.swing.JFrame {
                     return;
                 }
             }
+        }
         String fN = addFN.getText();
         String lN = addLN.getText();
         
@@ -733,8 +728,7 @@ public class LandingPage extends javax.swing.JFrame {
         else {
             entriesAreGood = true;
         }
-        
-        
+           
         int sX = 0;
         int wL = 0;
         
@@ -931,7 +925,7 @@ public class LandingPage extends javax.swing.JFrame {
                 int curSX = Integer.parseInt(readEmp[3]);
                 int curWL = Integer.parseInt(readEmp[4]);
                 double curDR = Double.parseDouble(readEmp[5]);
-                if (readEmp[6]=="P"){
+                if (readEmp[6].equals("P")){
                     Double curHW = Double.parseDouble(readEmp[7]);
                     int curHPW = Integer.parseInt(readEmp[8]);
                     int curWPY = Integer.parseInt(readEmp[9]);
@@ -1112,7 +1106,7 @@ public class LandingPage extends javax.swing.JFrame {
 //                new LandingPage().setVisible(true);
 //            }
 //        });
-//    } what does this do
+//    } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddEmp;

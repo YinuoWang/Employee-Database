@@ -18,6 +18,8 @@
 *private.properties
 *project.properties
 *.netbeans_automatic_build
+*built-jar.properties
+/build
 
 # Package Files #
 *.jar

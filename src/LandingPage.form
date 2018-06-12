@@ -332,15 +332,10 @@
                                       <Component id="labelWL" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                                      <Component id="addDR" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                                      <Component id="labelDR" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="addDR" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelDR" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -515,7 +510,7 @@
                 <Column editable="false" title="Last Name" type="java.lang.String"/>
               </Table>
             </Property>
-            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="empTable.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseClicked(java.awt.event.MouseEvent evt) {&#xa;        int row = empTable.rowAtPoint(evt.getPoint());&#xa;        searchEmpInFrame((int)empTable.getValueAt(row, 0));&#xa;    }&#xa;});&#xa;        &#xa;empTable.getTableHeader().addMouseListener(new MouseAdapter() {&#xa;    int[] clicked = {0,0,0};&#xa;    @Override&#xa;    public void mouseClicked(java.awt.event.MouseEvent evt) {&#xa;        int col = empTable.columnAtPoint(evt.getPoint());&#xa;        if (clicked[col]==0){&#xa;          clicked[col] = 1;&#xa;        }&#xa;        else if (clicked[col] == 1){&#xa;            clicked[col] = 2;&#xa;        }&#xa;        else{ // if clicked[col] == 2&#xa;            clicked[col] = 1;&#xa;        }&#xa;        sortTable(col, clicked[col]);&#xa;      };&#xa;});">
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="empTable.addMouseListener(new java.awt.event.MouseAdapter() {&#xa;    @Override&#xa;    public void mouseClicked(java.awt.event.MouseEvent evt) {&#xa;        int row = empTable.rowAtPoint(evt.getPoint());&#xa;        if (empTable.getValueAt(row, 0) != null &amp;&amp; String.valueOf(empTable.getValueAt(row, 0)) != &quot;&quot;){&#xa;            searchEmpInFrame((int)empTable.getValueAt(row, 0));&#xa;        }&#xa;    }&#xa;});&#xa;        &#xa;empTable.getTableHeader().addMouseListener(new MouseAdapter() {&#xa;    int[] clicked = {0,0,0};&#xa;    @Override&#xa;    public void mouseClicked(java.awt.event.MouseEvent evt) {&#xa;        int col = empTable.columnAtPoint(evt.getPoint());&#xa;        if (clicked[col]==0){&#xa;          clicked[col] = 1;&#xa;        }&#xa;        else if (clicked[col] == 1){&#xa;            clicked[col] = 2;&#xa;        }&#xa;        else{ // if clicked[col] == 2&#xa;            clicked[col] = 1;&#xa;        }&#xa;        sortTable(col, clicked[col]);&#xa;      };&#xa;});">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>

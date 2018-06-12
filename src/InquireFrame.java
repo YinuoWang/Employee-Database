@@ -1,4 +1,7 @@
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +14,7 @@ public class InquireFrame extends javax.swing.JFrame {
      */
     protected EmployeeInfo currentEmp;
     protected MyHashTable currentHT;
+    protected LandingPage currentLandingPage;
     
     public boolean isStringInt(String s){
         try {
@@ -32,10 +36,11 @@ public class InquireFrame extends javax.swing.JFrame {
         }
     }
     
-    public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT) {
+    public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT, LandingPage cLP) {
         initComponents(); 
         currentEmp = cEmp;
         currentHT = cHT;
+        currentLandingPage = cLP;
         modifyEN.setText(Integer.toString(currentEmp.getEmployeeNum()));
         modifyFN.setText(currentEmp.getFirstName());
         modifyLN.setText(currentEmp.getLastName());
@@ -49,14 +54,16 @@ public class InquireFrame extends javax.swing.JFrame {
             editSexOther.setSelected(true);
         }
         
-        if (currentEmp.getWorkLocation() == 0){
-            editLocationMississauga.setSelected(true);
-        }
-        else if (currentEmp.getWorkLocation () == 1){
-            editLocationOttawa.setSelected(true);
-        }
-        else {
-            editLocationChicago.setSelected(true);
+        switch (currentEmp.getWorkLocation()) {
+            case 0:
+                editLocationMississauga.setSelected(true);
+                break;
+            case 1:
+                editLocationOttawa.setSelected(true);
+                break;
+            default:
+                editLocationChicago.setSelected(true);
+                break;
         }
         modifyDR.setText(Double.toString(currentEmp.getDeductionRate()));
         if (currentEmp instanceof PartTimeEmployee){
@@ -79,6 +86,13 @@ public class InquireFrame extends javax.swing.JFrame {
             editPartTimeVSFullTime.setSelectedIndex(1);
             editButtonFT.setSelected(true);
         }
+        cLP.setEnabled(false);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                currentLandingPage.setEnabled(true);
+            }
+        });
     }
 
     /**
@@ -496,7 +510,7 @@ public class InquireFrame extends javax.swing.JFrame {
         for (int i=0; i<currentHT.bucketCount; ++i){
             ArrayList<EmployeeInfo> currentAList = currentHT.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
-                if (saveEN == currentAList.get(k).getEmployeeNum()){
+                if (saveEN != currentEmp.getEmployeeNum() && saveEN == currentAList.get(k).getEmployeeNum()){
                     // display box here
                     return;
                 }
@@ -522,7 +536,6 @@ public class InquireFrame extends javax.swing.JFrame {
         else {
             entriesAreGood = true;
         }
-        
         
         int saveSX = 0;
         int saveWL = 0;
@@ -664,15 +677,9 @@ public class InquireFrame extends javax.swing.JFrame {
                 ((FullTimeEmployee)currentEmp).setYearlySalary(saveYS);
             }
         }
-        this.setVisible(false); // why is this not working  
+        currentLandingPage.setEnabled(true);
+        this.setVisible(false);
         }
-        
-        
-        
-       
-
-
-        
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -710,13 +717,6 @@ public class InquireFrame extends javax.swing.JFrame {
         InputErrorMsg.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_InputErrorMsgButtonActionPerformed
-    
-    private String isEmpty(String input){
-        if (input.equals("")){
-            return "0";
-        }
-        return input;
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog InputErrorMsg;
