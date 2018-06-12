@@ -9,6 +9,26 @@ public class InquireFrame extends javax.swing.JFrame {
     protected EmployeeInfo currentEmp;
     protected MyHashTable currentHT;
     
+    public boolean isStringInt(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        } 
+        catch (NumberFormatException ex){
+            return false;
+        }
+    }
+    
+        public boolean isStringDouble(String s){
+        try {
+            Double.parseDouble(s);
+            return true;
+        } 
+        catch (NumberFormatException ex){
+            return false;
+        }
+    }
+    
     public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT) {
         initComponents();
         currentEmp = cEmp;
@@ -16,18 +36,44 @@ public class InquireFrame extends javax.swing.JFrame {
         modifyEN.setText(Integer.toString(currentEmp.getEmployeeNum()));
         modifyFN.setText(currentEmp.getFirstName());
         modifyLN.setText(currentEmp.getLastName());
-        modifySX.setText(Integer.toString(currentEmp.getSex()));
-        modifyWL.setText(Integer.toString(currentEmp.getWorkLocation()));
+        if (currentEmp.getSex()== 0){
+            editSexMale.setSelected(true);
+        }
+        else if (currentEmp.getSex() == 1){
+            editSexFemale.setSelected(true);
+        }
+        else {
+            editSexOther.setSelected(true);
+        }
+        
+        if (currentEmp.getWorkLocation() == 0){
+            editLocationMississauga.setSelected(true);
+        }
+        else if (currentEmp.getWorkLocation () == 1){
+            editLocationOttawa.setSelected(true);
+        }
+        else {
+            editLocationChicago.setSelected(true);
+        }
         modifyDR.setText(Double.toString(currentEmp.getDeductionRate()));
         if (currentEmp instanceof PartTimeEmployee){
             PartTimeEmployee initPartEmp = (PartTimeEmployee)currentEmp;
             modifyHW.setText(Double.toString(initPartEmp.getHourlyWage()));
             modifyHPW.setText(Integer.toString(initPartEmp.getHoursPerWeek()));
             modifyWPY.setText(Integer.toString(initPartEmp.getWeeksPerYear()));
+            editPartTimeVSFullTime.setEnabled(true);
+            editPartTimeVSFullTime.setEnabledAt(0, true);
+            editPartTimeVSFullTime.setEnabledAt(1, false);
+            editPartTimeVSFullTime.setSelectedIndex(0);
             editButtonPT.setSelected(true);
+            
         }
         else{
             modifyYS.setText(Double.toString(((FullTimeEmployee)currentEmp).getYearlySalary()));
+            editPartTimeVSFullTime.setEnabled(true);
+            editPartTimeVSFullTime.setEnabledAt(0, false);
+            editPartTimeVSFullTime.setEnabledAt(1, true);
+            editPartTimeVSFullTime.setSelectedIndex(1);
             editButtonFT.setSelected(true);
         }
     }
@@ -42,6 +88,13 @@ public class InquireFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         editEmpType = new javax.swing.ButtonGroup();
+        editEmpSex = new javax.swing.ButtonGroup();
+        editEmpLocation = new javax.swing.ButtonGroup();
+        MissingEntries = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        InputErrorMsg = new javax.swing.JDialog();
+        InputErrorMsgButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         modifyEN = new javax.swing.JTextField();
         modifyFN = new javax.swing.JTextField();
         modifyLN = new javax.swing.JTextField();
@@ -51,22 +104,86 @@ public class InquireFrame extends javax.swing.JFrame {
         lNLabel = new javax.swing.JLabel();
         saveButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        modifySX = new javax.swing.JTextField();
-        modifyWL = new javax.swing.JTextField();
         modifyDR = new javax.swing.JTextField();
         sXLabel = new javax.swing.JLabel();
         wLLabel = new javax.swing.JLabel();
         dRLabel = new javax.swing.JLabel();
         editButtonPT = new javax.swing.JRadioButton();
         editButtonFT = new javax.swing.JRadioButton();
+        editSexMale = new javax.swing.JRadioButton();
+        editSexFemale = new javax.swing.JRadioButton();
+        editSexOther = new javax.swing.JRadioButton();
+        editLocationMississauga = new javax.swing.JRadioButton();
+        editLocationOttawa = new javax.swing.JRadioButton();
+        editLocationChicago = new javax.swing.JRadioButton();
+        editPartTimeVSFullTime = new javax.swing.JTabbedPane();
+        editPartTimeTab = new javax.swing.JPanel();
+        hWLabel = new java.awt.Label();
+        modifyHW = new java.awt.TextField();
+        hPWLabel = new java.awt.Label();
+        modifyHPW = new java.awt.TextField();
+        wPYLabel = new java.awt.Label();
+        modifyWPY = new java.awt.TextField();
+        editFullTimeTab = new javax.swing.JPanel();
         modifyYS = new java.awt.TextField();
         ySLabel = new java.awt.Label();
-        modifyHW = new java.awt.TextField();
-        modifyWPY = new java.awt.TextField();
-        modifyHPW = new java.awt.TextField();
-        hWLabel = new java.awt.Label();
-        wPYLabel = new java.awt.Label();
-        hPWLabel = new java.awt.Label();
+
+        MissingEntries.setMinimumSize(new java.awt.Dimension(300, 200));
+        MissingEntries.setResizable(false);
+
+        jLabel3.setText("Error! Please make sure all entries are filled out!");
+
+        javax.swing.GroupLayout MissingEntriesLayout = new javax.swing.GroupLayout(MissingEntries.getContentPane());
+        MissingEntries.getContentPane().setLayout(MissingEntriesLayout);
+        MissingEntriesLayout.setHorizontalGroup(
+            MissingEntriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MissingEntriesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        MissingEntriesLayout.setVerticalGroup(
+            MissingEntriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MissingEntriesLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(jLabel3)
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+
+        InputErrorMsg.setMinimumSize(new java.awt.Dimension(272, 207));
+        InputErrorMsg.setResizable(false);
+
+        InputErrorMsgButton.setText("Got it");
+        InputErrorMsgButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InputErrorMsgButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Error! You've done a funny :(");
+
+        javax.swing.GroupLayout InputErrorMsgLayout = new javax.swing.GroupLayout(InputErrorMsg.getContentPane());
+        InputErrorMsg.getContentPane().setLayout(InputErrorMsgLayout);
+        InputErrorMsgLayout.setHorizontalGroup(
+            InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputErrorMsgLayout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addGroup(InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(InputErrorMsgLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(InputErrorMsgButton)))
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+        InputErrorMsgLayout.setVerticalGroup(
+            InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputErrorMsgLayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(InputErrorMsgButton)
+                .addGap(60, 60, 60))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -112,18 +229,6 @@ public class InquireFrame extends javax.swing.JFrame {
             }
         });
 
-        modifySX.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifySXActionPerformed(evt);
-            }
-        });
-
-        modifyWL.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifyWLActionPerformed(evt);
-            }
-        });
-
         modifyDR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 modifyDRActionPerformed(evt);
@@ -138,17 +243,113 @@ public class InquireFrame extends javax.swing.JFrame {
 
         editEmpType.add(editButtonPT);
         editButtonPT.setText("Part-Time");
+        editButtonPT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonPTActionPerformed(evt);
+            }
+        });
 
         editEmpType.add(editButtonFT);
         editButtonFT.setText("Full-Time");
+        editButtonFT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonFTActionPerformed(evt);
+            }
+        });
 
-        ySLabel.setText("Yearly Salary");
+        editEmpSex.add(editSexMale);
+        editSexMale.setText("Male");
+        editSexMale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editSexMaleActionPerformed(evt);
+            }
+        });
+
+        editEmpSex.add(editSexFemale);
+        editSexFemale.setText("Female");
+
+        editEmpSex.add(editSexOther);
+        editSexOther.setText("Other");
+
+        editEmpLocation.add(editLocationMississauga);
+        editLocationMississauga.setText("Mississauga");
+
+        editEmpLocation.add(editLocationOttawa);
+        editLocationOttawa.setText("Ottawa");
+
+        editEmpLocation.add(editLocationChicago);
+        editLocationChicago.setText("Chicago");
+
+        editPartTimeVSFullTime.setEnabled(false);
 
         hWLabel.setText("Hourly Wage");
 
+        hPWLabel.setText("Hours Per Week");
+
         wPYLabel.setText("Weeks Per Year");
 
-        hPWLabel.setText("Hours Per Week");
+        javax.swing.GroupLayout editPartTimeTabLayout = new javax.swing.GroupLayout(editPartTimeTab);
+        editPartTimeTab.setLayout(editPartTimeTabLayout);
+        editPartTimeTabLayout.setHorizontalGroup(
+            editPartTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editPartTimeTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(editPartTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(wPYLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hPWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(editPartTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(modifyHW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifyWPY, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifyHPW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        editPartTimeTabLayout.setVerticalGroup(
+            editPartTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editPartTimeTabLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(editPartTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(modifyHW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editPartTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(hPWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(editPartTimeTabLayout.createSequentialGroup()
+                        .addComponent(modifyHPW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(editPartTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(modifyWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(wPYLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        editPartTimeVSFullTime.addTab("Part-Time", editPartTimeTab);
+
+        ySLabel.setText("Yearly Salary");
+
+        javax.swing.GroupLayout editFullTimeTabLayout = new javax.swing.GroupLayout(editFullTimeTab);
+        editFullTimeTab.setLayout(editFullTimeTabLayout);
+        editFullTimeTabLayout.setHorizontalGroup(
+            editFullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editFullTimeTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ySLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(modifyYS, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        editFullTimeTabLayout.setVerticalGroup(
+            editFullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editFullTimeTabLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(editFullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(modifyYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ySLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+
+        editPartTimeVSFullTime.addTab("Full-Time", editFullTimeTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,51 +358,62 @@ public class InquireFrame extends javax.swing.JFrame {
             .addComponent(editTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(eNLabel)
-                            .addComponent(fNLabel)
-                            .addComponent(lNLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(modifyFN)
-                            .addComponent(modifyLN)
-                            .addComponent(modifyEN, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(sXLabel)
                             .addComponent(wLLabel)
                             .addComponent(dRLabel))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(modifyWL)
-                            .addComponent(modifyDR)
-                            .addComponent(modifySX, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(wPYLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hPWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editButtonPT)
-                    .addComponent(modifyHW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modifyWPY, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modifyHPW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editButtonFT)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(modifyDR, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(editSexMale)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(editSexFemale)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(editSexOther))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(editLocationMississauga)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(editLocationOttawa)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(editLocationChicago)))
+                                .addGap(0, 96, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(modifyYS, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ySLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(eNLabel)
+                                    .addComponent(fNLabel)
+                                    .addComponent(lNLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(modifyFN)
+                                    .addComponent(modifyLN)
+                                    .addComponent(modifyEN, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(editPartTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addComponent(saveButton)
-                .addGap(18, 18, 18)
-                .addComponent(deleteButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(editButtonPT)
+                        .addGap(59, 59, 59)
+                        .addComponent(editButtonFT))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(saveButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,19 +428,27 @@ public class InquireFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fNLabel)
                     .addComponent(modifyFN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lNLabel)
                     .addComponent(modifyLN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sXLabel)
-                    .addComponent(modifySX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(wLLabel)
-                    .addComponent(modifyWL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sXLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(wLLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(editSexMale)
+                            .addComponent(editSexFemale)
+                            .addComponent(editSexOther))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(editLocationMississauga)
+                            .addComponent(editLocationOttawa)
+                            .addComponent(editLocationChicago))))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dRLabel)
                     .addComponent(modifyDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -236,26 +456,13 @@ public class InquireFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editButtonPT)
                     .addComponent(editButtonFT))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(modifyYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ySLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(modifyHW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(hWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(modifyHPW, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(modifyWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(wPYLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(hPWLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
+                .addComponent(editPartTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(deleteButton))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -274,17 +481,154 @@ public class InquireFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_modifyLNActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        int saveEN = Integer.parseInt(modifyEN.getText());
+        boolean entryError = false;
+        
+        String editENEntry = modifyEN.getText();
+        int saveEN = 0;
+        if (isStringInt(editENEntry) == true){
+            saveEN = Integer.parseInt(modifyEN.getText());
+        }
+        else {
+            entryError = true;
+        }
+        
         String saveFN = modifyFN.getText();
         String saveLN = modifyLN.getText();
-        int saveSX = Integer.parseInt(modifySX.getText());
-        int saveWL = Integer.parseInt(modifyWL.getText());
-        double saveDR = Double.parseDouble(modifyDR.getText());
-        double saveHW = Double.parseDouble(isEmpty(modifyHW.getText()));
-        int saveHPW = Integer.parseInt(isEmpty(modifyHPW.getText()));
-        int saveWPY = Integer.parseInt(isEmpty(modifyWPY.getText()));
-        double saveYS = Double.parseDouble(isEmpty(modifyYS.getText()));
-        if (saveEN != currentEmp.getEmployeeNum()){
+        
+        String editEDEntry = modifyDR.getText();
+        double saveDR = 0;
+        if (isStringDouble(editEDEntry) == true){
+            saveDR = Double.parseDouble(modifyDR.getText());
+        }
+        else {
+            entryError = true;
+        }
+        
+        boolean entriesAreGood = false;
+        
+        if (editENEntry.isEmpty() || saveFN.isEmpty() || saveLN.isEmpty() || editEDEntry.isEmpty()){
+            entriesAreGood = false;
+        }
+        else {
+            entriesAreGood = true;
+        }
+        
+        
+        int saveSX = 0;
+        int saveWL = 0;
+        
+        if (editSexMale.isSelected()){
+            saveSX = 0;
+        }
+        else if (editSexFemale.isSelected()){
+            saveSX = 1;
+        }
+        else {
+            saveSX = 2;
+        }
+        
+        boolean sexSelected = false;
+        if (editSexMale.isSelected() || editSexFemale.isSelected() || editSexOther.isSelected()){
+            sexSelected = true;
+        }
+        
+        if (editLocationMississauga.isSelected()){
+            saveWL = 0;
+        }
+        else if (editLocationOttawa.isSelected()){
+            saveWL = 1;
+        }
+        else {
+            saveWL = 2;
+        }
+        
+        boolean locationSelected = false;
+        if (editLocationMississauga.isSelected() || editLocationOttawa.isSelected() || editLocationChicago.isSelected()){
+            locationSelected = true;
+        }
+        
+        boolean jobStatus = false;
+        if (editButtonPT.isSelected() || editButtonFT.isSelected()){
+            jobStatus = true;
+        }
+        
+        boolean partTimeEntry = false;
+        boolean fullTimeEntry = false;
+        
+        double saveHW = 0;
+        int saveHPW = 0;
+        int saveWPY = 0;
+        double saveYS = 0;
+
+        if (editButtonPT.isSelected()){
+            String editHWEntry = modifyHW.getText();
+            if (isStringDouble(editHWEntry) == true){
+                saveHW = Double.parseDouble(modifyHW.getText());
+            }
+            else {
+                entryError = true;
+            }
+        
+            String editHPWEntry = modifyHPW.getText();
+            if (isStringInt(editHPWEntry) == true){
+                saveHPW = Integer.parseInt(modifyHPW.getText());
+            }
+            else {
+                entryError = true;
+            }
+        
+            String editWPYEntry = modifyWPY.getText();
+            if (isStringInt(editWPYEntry) == true){
+                saveWPY = Integer.parseInt(modifyWPY.getText());
+            }
+            else {
+                entryError = true;
+            }
+            
+            if (editHWEntry.isEmpty() || editHPWEntry.isEmpty() || editWPYEntry.isEmpty()){
+                partTimeEntry = false;
+            }
+            else {
+                partTimeEntry = true;
+            }
+        }
+        else if (editButtonFT.isSelected()){
+            String editYSEntry = modifyYS.getText();
+            if (isStringDouble(editYSEntry) == true){
+                saveYS = Double.parseDouble(modifyYS.getText());
+                fullTimeEntry = true;
+            }
+            else if (editYSEntry != ""){
+                fullTimeEntry = true;
+            }
+            else {
+                entryError = true;
+            }
+        }
+
+        boolean workEntry = false;
+        if (partTimeEntry == true || fullTimeEntry == true){
+            workEntry = true;
+        }
+        
+        boolean everythingOK = false;
+        if (entriesAreGood == true && sexSelected == true && locationSelected == true && jobStatus == true && workEntry == true){
+                everythingOK = true;
+        }
+        
+        
+        if (everythingOK == false){
+                        MissingEntries.setVisible(true);
+                        entryError = false;
+        }
+
+        else if (entryError == true){
+            InputErrorMsg.setVisible(true);
+        }
+        
+        else if (everythingOK == true){
+            
+            if (saveEN != currentEmp.getEmployeeNum()){
             currentHT.removeEmployee(currentEmp.getEmployeeNum());
             if (editButtonPT.isSelected()){
                 currentHT.addEmployee(new PartTimeEmployee(saveEN, saveFN, saveLN, saveSX, saveWL, saveDR, saveHW, saveHPW, saveWPY));
@@ -310,7 +654,15 @@ public class InquireFrame extends javax.swing.JFrame {
                 ((FullTimeEmployee)currentEmp).setYearlySalary(saveYS);
             }
         }
-        this.setVisible(false); // why is this not working
+        this.setVisible(false); // why is this not working  
+        }
+        
+        
+        
+       
+
+
+        
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -318,17 +670,36 @@ public class InquireFrame extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void modifySXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifySXActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifySXActionPerformed
-
-    private void modifyWLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyWLActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifyWLActionPerformed
-
     private void modifyDRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyDRActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_modifyDRActionPerformed
+
+    private void editSexMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSexMaleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editSexMaleActionPerformed
+
+    private void editButtonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPTActionPerformed
+        editPartTimeVSFullTime.setEnabled(true);
+        editPartTimeVSFullTime.setEnabledAt(1, true);
+        editPartTimeVSFullTime.setEnabledAt(1, false);
+        editPartTimeVSFullTime.setSelectedIndex(0);
+        modifyYS.setText("");
+    }//GEN-LAST:event_editButtonPTActionPerformed
+
+    private void editButtonFTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonFTActionPerformed
+        editPartTimeVSFullTime.setEnabled(true);
+        editPartTimeVSFullTime.setEnabledAt(0, false);
+        editPartTimeVSFullTime.setEnabledAt(1, true);
+        editPartTimeVSFullTime.setSelectedIndex(1);
+        modifyHW.setText("");
+        modifyHPW.setText("");
+        modifyWPY.setText("");
+    }//GEN-LAST:event_editButtonFTActionPerformed
+
+    private void InputErrorMsgButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputErrorMsgButtonActionPerformed
+        InputErrorMsg.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputErrorMsgButtonActionPerformed
     
     private String isEmpty(String input){
         if (input.equals("")){
@@ -338,16 +709,32 @@ public class InquireFrame extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog InputErrorMsg;
+    private javax.swing.JButton InputErrorMsgButton;
+    private javax.swing.JDialog MissingEntries;
     private javax.swing.JLabel dRLabel;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel eNLabel;
     private javax.swing.JRadioButton editButtonFT;
     private javax.swing.JRadioButton editButtonPT;
+    private javax.swing.ButtonGroup editEmpLocation;
+    private javax.swing.ButtonGroup editEmpSex;
     private javax.swing.ButtonGroup editEmpType;
+    private javax.swing.JPanel editFullTimeTab;
+    private javax.swing.JRadioButton editLocationChicago;
+    private javax.swing.JRadioButton editLocationMississauga;
+    private javax.swing.JRadioButton editLocationOttawa;
+    private javax.swing.JPanel editPartTimeTab;
+    private javax.swing.JTabbedPane editPartTimeVSFullTime;
+    private javax.swing.JRadioButton editSexFemale;
+    private javax.swing.JRadioButton editSexMale;
+    private javax.swing.JRadioButton editSexOther;
     private javax.swing.JLabel editTitle;
     private javax.swing.JLabel fNLabel;
     private java.awt.Label hPWLabel;
     private java.awt.Label hWLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lNLabel;
     private javax.swing.JTextField modifyDR;
     private javax.swing.JTextField modifyEN;
@@ -355,8 +742,6 @@ public class InquireFrame extends javax.swing.JFrame {
     private java.awt.TextField modifyHPW;
     private java.awt.TextField modifyHW;
     private javax.swing.JTextField modifyLN;
-    private javax.swing.JTextField modifySX;
-    private javax.swing.JTextField modifyWL;
     private java.awt.TextField modifyWPY;
     private java.awt.TextField modifyYS;
     private javax.swing.JLabel sXLabel;
