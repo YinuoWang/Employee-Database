@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 /**
  *
  * @author yinuo
@@ -30,7 +33,7 @@ public class InquireFrame extends javax.swing.JFrame {
     }
     
     public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT) {
-        initComponents();
+        initComponents(); 
         currentEmp = cEmp;
         currentHT = cHT;
         modifyEN.setText(Integer.toString(currentEmp.getEmployeeNum()));
@@ -481,8 +484,7 @@ public class InquireFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_modifyLNActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        boolean entryError = false;
-        
+        boolean entryError = false;       
         String editENEntry = modifyEN.getText();
         int saveEN = 0;
         if (isStringInt(editENEntry) == true){
@@ -491,7 +493,15 @@ public class InquireFrame extends javax.swing.JFrame {
         else {
             entryError = true;
         }
-        
+        for (int i=0; i<currentHT.bucketCount; ++i){
+            ArrayList<EmployeeInfo> currentAList = currentHT.buckets[i];
+            for (int k=0; k<currentAList.size(); ++k){
+                if (saveEN == currentAList.get(k).getEmployeeNum()){
+                    // display box here
+                    return;
+                }
+            }
+        }
         String saveFN = modifyFN.getText();
         String saveLN = modifyLN.getText();
         

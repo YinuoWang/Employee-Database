@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import javafx.util.Pair;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -271,41 +275,41 @@ public class LandingPage extends javax.swing.JFrame {
 
         empTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Employee Number", "Name"
+                "Employee Number", "First Name", "Last Name"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -318,7 +322,33 @@ public class LandingPage extends javax.swing.JFrame {
         });
         empTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         empTable.setOpaque(false);
+        empTable.getTableHeader().setReorderingAllowed(false);
         tableScrollPane.setViewportView(empTable);
+        empTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = empTable.rowAtPoint(evt.getPoint());
+                searchEmpInFrame((int)empTable.getValueAt(row, 0));
+            }
+        });
+
+        empTable.getTableHeader().addMouseListener(new MouseAdapter() {
+            int[] clicked = {0,0,0};
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int col = empTable.columnAtPoint(evt.getPoint());
+                if (clicked[col]==0){
+                    clicked[col] = 1;
+                }
+                else if (clicked[col] == 1){
+                    clicked[col] = 2;
+                }
+                else{ // if clicked[col] == 2
+                    clicked[col] = 1;
+                }
+                sortTable(col, clicked[col]);
+            };
+        });
 
         displayHeading.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         displayHeading.setText("Employees Displayed");
@@ -664,10 +694,9 @@ public class LandingPage extends javax.swing.JFrame {
             InputErrorMsg.setVisible(true);
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
-
+    
     private void AddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddEmpActionPerformed
-        boolean entryError = false;
-        
+        boolean entryError = false;       
         String enEntry = addEN.getText();
         int eN = 0;
         if (isStringInt(enEntry) == true){
@@ -676,7 +705,14 @@ public class LandingPage extends javax.swing.JFrame {
         else {
             entryError = true;
         }
-
+        for (int i=0; i<bucketCount; ++i){
+            ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
+            for (int k=0; k<currentAList.size(); ++k){
+                if (isDuplicate(eN, currentAList.get(k))){
+                    // display box here
+                    return;
+                }
+            }
         String fN = addFN.getText();
         String lN = addLN.getText();
         
@@ -875,11 +911,21 @@ public class LandingPage extends javax.swing.JFrame {
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try{
             BufferedReader in = new BufferedReader(new FileReader("saveFile.txt"));
-            String eN;
-            while((eN = in.readLine()) != null){
+            String empInfo;
+            HashSet<Integer> empList = new HashSet();
+            for (int i=0; i<bucketCount; ++i){
+                ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
+                for (int k=0; k<currentAList.size(); ++k){
+                    empList.add(currentAList.get(k).getEmployeeNum());
+                }
+            }
+            while((empInfo = in.readLine()) != null){
                 // should i wipe the current hashtable or just add new stuff
-                String[] readEmp = eN.split(",");
+                String[] readEmp = empInfo.split(",");
                 int curEN = Integer.parseInt(readEmp[0]);
+                if (empList.contains(curEN)){
+                    continue;
+                }
                 String curFN = readEmp[1];
                 String curLN = readEmp[2];
                 int curSX = Integer.parseInt(readEmp[3]);
@@ -917,7 +963,8 @@ public class LandingPage extends javax.swing.JFrame {
             ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
                 empTable.setValueAt(currentAList.get(k).getEmployeeNum(),row,0);
-                empTable.setValueAt(currentAList.get(k).getFirstName() + " " + currentAList.get(k).getLastName(), row, 1);
+                empTable.setValueAt(currentAList.get(k).getFirstName(), row, 1);
+                empTable.setValueAt(currentAList.get(k).getLastName(), row, 2);
                 row++;
             }
         }
@@ -953,15 +1000,85 @@ public class LandingPage extends javax.swing.JFrame {
         addHPW.setText("");
         addWPY.setText("");
     }//GEN-LAST:event_radioButtonFTActionPerformed
+    
+    Comparator<String[]> compEN = (String[] a, String[] b) -> {
+        int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
+        if (Ai == Bi){
+            if (a[1].compareTo(b[1])==0){
+                return a[2].compareTo(b[2]);
+            }
+            return a[1].compareTo(b[1]);
+        }
+        else{
+            return Ai-Bi;
+        }
+    };
+    
+    Comparator<String[]> compFN = (String[] a, String[] b) -> {
+        int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
+        if (a[1].equals(b[1])){
+            if (a[2].equals(b[2])){
+                return Ai-Bi;
+            }
+            return a[2].compareTo(b[2]);
+        }
+        else{
+            return a[1].compareTo(b[1]);
+        }
+    };
+    
+    Comparator<String[]> compLN = (String[] a, String[] b) -> {
+        int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
+        if (a[2].equals(b[2])){
+            if (a[1].equals(b[1])){
+                return Ai-Bi;
+            }
+            return a[1].compareTo(b[1]);
+        }
+        else{
+            return a[2].compareTo(b[2]);
+        }
+    };
 
-    private void employeeMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeMaleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_employeeMaleActionPerformed
-
-    private void addENKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addENKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addENKeyTyped
-
+    private void sortTable(int col, int clicked){
+        int row = 0;
+        ArrayList<String[]> empsList = new ArrayList();
+        while(!String.valueOf(empTable.getValueAt(row,0)).equals("")){
+            String[] empToAdd = new String[3];
+            empToAdd[0]=String.valueOf(empTable.getValueAt(row,0));
+            empToAdd[1]=String.valueOf(empTable.getValueAt(row,1));
+            empToAdd[2]=String.valueOf(empTable.getValueAt(row,2));
+            empsList.add(empToAdd);
+            row++;
+        }
+        switch (col) {
+            case 0:
+                Collections.sort(empsList, compEN);
+                break;
+            case 1:
+                Collections.sort(empsList, compFN);
+                break;
+            default:
+                Collections.sort(empsList, compLN);
+                break;
+        }
+        if (clicked==2){
+            Collections.reverse(empsList);
+        }
+        for (int i=0; i<row; ++i){
+            empTable.setValueAt(empsList.get(i)[0],i,0);
+            empTable.setValueAt(empsList.get(i)[1],i,1);
+            empTable.setValueAt(empsList.get(i)[2],i,2);
+        }
+    }
+    
+    protected boolean isDuplicate(int currentEN, EmployeeInfo existing){
+        if (currentEN == existing.getEmployeeNum()){
+            return true;
+        }
+        return false;
+    }
+  
 //    /**
 //     * @param args the command line arguments
 //     */
