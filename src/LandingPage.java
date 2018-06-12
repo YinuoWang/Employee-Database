@@ -1,5 +1,4 @@
 
-import java.awt.event.MouseAdapter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -13,6 +12,7 @@ import javafx.util.Pair;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+
 /**
  *
  * @author yinuo
@@ -23,6 +23,8 @@ public class LandingPage extends javax.swing.JFrame {
     protected MyHashTable hashTable;
     protected int bucketCount;
 
+    
+    
     /**
      * Creates new form LandingPage
      */
@@ -30,6 +32,15 @@ public class LandingPage extends javax.swing.JFrame {
         bucketCount = 5;
         hashTable = new MyHashTable(5);
         initComponents();
+        empTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = empTable.rowAtPoint(evt.getPoint());
+                if (empTable.getValueAt(row, 0) != null){
+                    searchEmpInFrame((int)empTable.getValueAt(row, 0));
+                }
+            }
+        });
     }
 
     /**
@@ -44,7 +55,13 @@ public class LandingPage extends javax.swing.JFrame {
         employeeType = new javax.swing.ButtonGroup();
         InputErrorMsg = new javax.swing.JDialog();
         InputErrorMsgButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        InputErrorDialog = new javax.swing.JLabel();
+        employeeSex = new javax.swing.ButtonGroup();
+        employeeLocation = new javax.swing.ButtonGroup();
+        MissingEntries = new javax.swing.JDialog();
+        MissingEntriesDialog = new javax.swing.JLabel();
+        EmployeeExistsError = new javax.swing.JDialog();
+        EmployeeExistsDialog = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         searchEN = new javax.swing.JTextField();
         searchHeading = new javax.swing.JLabel();
@@ -59,8 +76,6 @@ public class LandingPage extends javax.swing.JFrame {
         AddEmp = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         loadButton = new javax.swing.JButton();
-        addWL = new java.awt.TextField();
-        addSX = new java.awt.TextField();
         addDR = new java.awt.TextField();
         labelSX = new java.awt.Label();
         labelWL = new java.awt.Label();
@@ -84,6 +99,12 @@ public class LandingPage extends javax.swing.JFrame {
         fullTimeTab = new javax.swing.JPanel();
         labelYS = new java.awt.Label();
         addYS = new java.awt.TextField();
+        employeeMale = new javax.swing.JRadioButton();
+        employeeFemale = new javax.swing.JRadioButton();
+        employeeOther = new javax.swing.JRadioButton();
+        locationMississauga = new javax.swing.JRadioButton();
+        locationOttawa = new javax.swing.JRadioButton();
+        locationChicago = new javax.swing.JRadioButton();
 
         InputErrorMsg.setMinimumSize(new java.awt.Dimension(272, 207));
         InputErrorMsg.setResizable(false);
@@ -95,7 +116,7 @@ public class LandingPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Error! You've done a funny :(");
+        InputErrorDialog.setText("Error! You've done a funny :(");
 
         javax.swing.GroupLayout InputErrorMsgLayout = new javax.swing.GroupLayout(InputErrorMsg.getContentPane());
         InputErrorMsg.getContentPane().setLayout(InputErrorMsgLayout);
@@ -104,7 +125,7 @@ public class LandingPage extends javax.swing.JFrame {
             .addGroup(InputErrorMsgLayout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addGroup(InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(InputErrorDialog)
                     .addGroup(InputErrorMsgLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(InputErrorMsgButton)))
@@ -114,13 +135,59 @@ public class LandingPage extends javax.swing.JFrame {
             InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InputErrorMsgLayout.createSequentialGroup()
                 .addGap(77, 77, 77)
-                .addComponent(jLabel1)
+                .addComponent(InputErrorDialog)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(InputErrorMsgButton)
                 .addGap(60, 60, 60))
         );
 
+        MissingEntries.setMinimumSize(new java.awt.Dimension(300, 200));
+        MissingEntries.setResizable(false);
+
+        MissingEntriesDialog.setText("Error! Please make sure all entries are filled out!");
+
+        javax.swing.GroupLayout MissingEntriesLayout = new javax.swing.GroupLayout(MissingEntries.getContentPane());
+        MissingEntries.getContentPane().setLayout(MissingEntriesLayout);
+        MissingEntriesLayout.setHorizontalGroup(
+            MissingEntriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MissingEntriesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MissingEntriesDialog)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        MissingEntriesLayout.setVerticalGroup(
+            MissingEntriesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MissingEntriesLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(MissingEntriesDialog)
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+
+        EmployeeExistsError.setMinimumSize(new java.awt.Dimension(300, 200));
+        EmployeeExistsError.setResizable(false);
+
+        EmployeeExistsDialog.setText("Error! Employee already exists!");
+
+        javax.swing.GroupLayout EmployeeExistsErrorLayout = new javax.swing.GroupLayout(EmployeeExistsError.getContentPane());
+        EmployeeExistsError.getContentPane().setLayout(EmployeeExistsErrorLayout);
+        EmployeeExistsErrorLayout.setHorizontalGroup(
+            EmployeeExistsErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EmployeeExistsErrorLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(EmployeeExistsDialog)
+                .addContainerGap(94, Short.MAX_VALUE))
+        );
+        EmployeeExistsErrorLayout.setVerticalGroup(
+            EmployeeExistsErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EmployeeExistsErrorLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(EmployeeExistsDialog)
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 102, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         title.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -149,6 +216,11 @@ public class LandingPage extends javax.swing.JFrame {
         addEN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addENActionPerformed(evt);
+            }
+        });
+        addEN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                addENKeyTyped(evt);
             }
         });
 
@@ -248,6 +320,7 @@ public class LandingPage extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        empTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         empTable.setOpaque(false);
         empTable.getTableHeader().setReorderingAllowed(false);
         tableScrollPane.setViewportView(empTable);
@@ -299,14 +372,14 @@ public class LandingPage extends javax.swing.JFrame {
             fillerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fillerTabLayout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addGap(0, 53, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         fillerTabLayout.setVerticalGroup(
             fillerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fillerTabLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jLabel2)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         partTimeVSFullTime.addTab("", fillerTab);
@@ -332,7 +405,7 @@ public class LandingPage extends javax.swing.JFrame {
                     .addComponent(addHW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addWPY, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addHPW, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 34, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         partTimeTabLayout.setVerticalGroup(
             partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +422,7 @@ public class LandingPage extends javax.swing.JFrame {
                 .addGroup(partTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addWPY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         partTimeVSFullTime.addTab("Part-Time", partTimeTab);
@@ -371,7 +444,7 @@ public class LandingPage extends javax.swing.JFrame {
                 .addComponent(labelYS, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(addYS, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         fullTimeTabLayout.setVerticalGroup(
             fullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,96 +453,144 @@ public class LandingPage extends javax.swing.JFrame {
                 .addGroup(fullTimeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(addYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelYS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         partTimeVSFullTime.addTab("Full-Time", fullTimeTab);
+
+        employeeSex.add(employeeMale);
+        employeeMale.setText("Male");
+        employeeMale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                employeeMaleActionPerformed(evt);
+            }
+        });
+
+        employeeSex.add(employeeFemale);
+        employeeFemale.setText("Female");
+
+        employeeSex.add(employeeOther);
+        employeeOther.setText("Other");
+
+        employeeLocation.add(locationMississauga);
+        locationMississauga.setText("Mississauga");
+
+        employeeLocation.add(locationOttawa);
+        locationOttawa.setText("Ottawa");
+
+        employeeLocation.add(locationChicago);
+        locationChicago.setText("Chicago");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SearchButton)
-                    .addComponent(searchHeading)
-                    .addComponent(searchEN, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(104, 104, 104)
-                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(searchHeading)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(61, 61, 61)
+                                        .addComponent(SearchButton)))
+                                .addGap(98, 98, 98)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(36, 36, 36)
+                                                .addComponent(partTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(labelLN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(labelFN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(labelEN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(labelSX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(labelWL, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(labelDR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(51, 51, 51)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(addEN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(addFN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(addLN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(50, 50, 50)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                                    .addComponent(locationMississauga)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                    .addComponent(locationOttawa)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                    .addComponent(locationChicago))
+                                                                .addGroup(layout.createSequentialGroup()
+                                                                    .addComponent(employeeMale)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                    .addComponent(employeeFemale)
+                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                    .addComponent(employeeOther)
+                                                                    .addGap(48, 48, 48)))))))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(31, 31, 31)
+                                                .addComponent(radioButtonPT)
+                                                .addGap(67, 67, 67)
+                                                .addComponent(radioButtonFT))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(150, 150, 150)
+                                                .addComponent(AddEmp))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(105, 105, 105)
+                                                .addComponent(addHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(75, 75, 75)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(displayHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(searchEN, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(loadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(217, 217, 217)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(partTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(109, 109, 109)
-                                .addComponent(AddEmp))))
+                            .addComponent(loadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(484, 484, 484)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addLN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addSX, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addWL, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(radioButtonPT)
-                                        .addGap(67, 67, 67)
-                                        .addComponent(radioButtonFT)))
-                                .addGap(24, 24, 24))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addEN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addFN, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(32, 32, 32)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(labelLN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelFN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelEN, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelSX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelWL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelDR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(displayHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(189, 189, 189)
+                        .addGap(1082, 1082, 1082)
                         .addComponent(refreshButton)))
-                .addGap(90, 90, 90))
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(title)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(searchHeading)
-                            .addComponent(addHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(displayHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(60, 60, 60)
+                        .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(addEN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelEN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(labelEN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(searchHeading)
+                                    .addComponent(addHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(displayHeading, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(searchEN, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(addFN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(labelFN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -479,38 +600,44 @@ public class LandingPage extends javax.swing.JFrame {
                                     .addComponent(labelLN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addSX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelSX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(employeeMale)
+                                            .addComponent(employeeFemale)
+                                            .addComponent(employeeOther))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(locationMississauga)
+                                            .addComponent(locationOttawa)
+                                            .addComponent(locationChicago)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(labelSX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(labelWL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addWL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelWL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(22, 22, 22)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(labelDR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(20, 20, 20)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(radioButtonPT)
                                     .addComponent(radioButtonFT))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(partTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(AddEmp))
+                                .addComponent(partTimeVSFullTime, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(34, 34, 34)
-                                .addComponent(refreshButton))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchEN, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addComponent(SearchButton)
-                        .addGap(121, 121, 121)
-                        .addComponent(loadButton)
+                                .addComponent(SearchButton)
+                                .addGap(122, 122, 122)
+                                .addComponent(loadButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(saveButton)))
                         .addGap(18, 18, 18)
-                        .addComponent(saveButton)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addComponent(AddEmp)))
+                .addGap(18, 18, 18)
+                .addComponent(refreshButton)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -546,12 +673,22 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }
     
+        public boolean isStringDouble(String s){
+        try {
+            Double.parseDouble(s);
+            return true;
+        } 
+        catch (NumberFormatException ex){
+            return false;
+        }
+    }
+    
     
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
-        String entry = searchEN.getText();
-        if (isStringInt(entry) == true){
-        searchEmpInFrame(Integer.parseInt(searchEN.getText()));
-        searchEN.setText("");
+        String searchEntry = searchEN.getText();
+        if (isStringInt(searchEntry) == true){
+            searchEmpInFrame(Integer.parseInt(searchEN.getText()));
+            searchEN.setText("");
         }
         else {
             InputErrorMsg.setVisible(true);
@@ -559,7 +696,15 @@ public class LandingPage extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchButtonActionPerformed
     
     private void AddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddEmpActionPerformed
-        int eN = Integer.parseInt(addEN.getText());
+        boolean entryError = false;       
+        String enEntry = addEN.getText();
+        int eN = 0;
+        if (isStringInt(enEntry) == true){
+            eN = Integer.parseInt(addEN.getText());
+        }
+        else {
+            entryError = true;
+        }
         for (int i=0; i<bucketCount; ++i){
             ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
@@ -568,33 +713,163 @@ public class LandingPage extends javax.swing.JFrame {
                     return;
                 }
             }
-        }
         String fN = addFN.getText();
         String lN = addLN.getText();
-        int sX = Integer.parseInt(addSX.getText());
-        int wL = Integer.parseInt(addWL.getText());
-        double dR = Double.parseDouble(addDR.getText());
+        
+        String edEntry = addDR.getText();
+        double dR = 0;
+        if (isStringDouble(edEntry) == true){
+            dR = Double.parseDouble(addDR.getText());
+        }
+        else {
+            entryError = true;
+        }
+        
+        boolean entriesAreGood = false;
+        
+        if (enEntry.isEmpty() || fN.isEmpty() || lN.isEmpty() || edEntry.isEmpty()){
+            entriesAreGood = false;
+        }
+        else {
+            entriesAreGood = true;
+        }
+        
+        
+        int sX = 0;
+        int wL = 0;
+        
+        if (employeeMale.isSelected()){
+            sX = 0;
+        }
+        else if (employeeFemale.isSelected()){
+            sX = 1;
+        }
+        else {
+            sX = 2;
+        }
+        
+        boolean sexSelected = false;
+        if (employeeMale.isSelected() || employeeFemale.isSelected() || employeeOther.isSelected()){
+            sexSelected = true;
+        }
+        
+        if (locationMississauga.isSelected()){
+            wL = 0;
+        }
+        else if (locationOttawa.isSelected()){
+            wL = 1;
+        }
+        else {
+            wL = 2;
+        }
+        
+        boolean locationSelected = false;
+        if (locationMississauga.isSelected() || locationOttawa.isSelected() || locationChicago.isSelected()){
+            locationSelected = true;
+        }
+        
+        boolean jobStatus = false;
+        if (radioButtonPT.isSelected() || radioButtonFT.isSelected()){
+            jobStatus = true;
+        }
+        
+        boolean partTimeEntry = false;
+        boolean fullTimeEntry = false;
+        
+        double hW = 0;
+        int hPW = 0;
+        int wPY = 0;
+        double yS = 0;
+
         if (radioButtonPT.isSelected()){
-            double hW = Double.parseDouble(addHW.getText());
-            int hPW = Integer.parseInt(addHPW.getText());
-            int wPY = Integer.parseInt(addWPY.getText());
-            hashTable.addEmployee(new PartTimeEmployee(eN, fN, lN, sX, wL, dR, hW, hPW, wPY));
+            String hwEntry = addHW.getText();
+            if (isStringDouble(hwEntry) == true){
+                hW = Double.parseDouble(addHW.getText());
+            }
+            else {
+                entryError = true;
+            }
+        
+            String hpwEntry = addHPW.getText();
+            if (isStringInt(hpwEntry) == true){
+                hPW = Integer.parseInt(addHPW.getText());
+            }
+            else {
+                entryError = true;
+            }
+        
+            String wpyEntry = addWPY.getText();
+            if (isStringInt(wpyEntry) == true){
+                wPY = Integer.parseInt(addWPY.getText());
+            }
+            else {
+                entryError = true;
+            }
+            
+            if (hwEntry.isEmpty() || hpwEntry.isEmpty() || wpyEntry.isEmpty()){
+                partTimeEntry = false;
+            }
+            else {
+                partTimeEntry = true;
+            }
         }
         else if (radioButtonFT.isSelected()){
-            double yS = Double.parseDouble(addYS.getText());
-            hashTable.addEmployee(new FullTimeEmployee(eN, fN, lN, sX, wL, dR, yS));
+            String ysEntry = addYS.getText();
+            if (isStringDouble(ysEntry) == true){
+                yS = Double.parseDouble(addYS.getText());
+                fullTimeEntry = true;
+            }
+            else if (ysEntry != ""){
+                fullTimeEntry = true;
+            }
+            else {
+                entryError = true;
+            }
         }
+
+        boolean workEntry = false;
+        if (partTimeEntry == true || fullTimeEntry == true){
+            workEntry = true;
+        }
+        
+        boolean everythingOK = false;
+        if (entriesAreGood == true && sexSelected == true && locationSelected == true && jobStatus == true && workEntry == true){
+                everythingOK = true;
+        }
+        
+        
+        if (everythingOK == false){
+                        MissingEntries.setVisible(true);
+                        entryError = false;
+        }
+
+        else if (entryError == true){
+            InputErrorMsg.setVisible(true);
+        }
+        
+        else if (everythingOK == true){
+            if (radioButtonPT.isSelected()){
+                hashTable.addEmployee(new PartTimeEmployee(eN, fN, lN, sX, wL, dR, hW, hPW, wPY));
+            }
+            else {
+                hashTable.addEmployee(new FullTimeEmployee(eN, fN, lN, sX, wL, dR, yS));
+
+            }
+            
         addEN.setText("");
         addFN.setText("");
         addLN.setText("");
-        addSX.setText("");
-        addWL.setText("");
         addDR.setText("");
         addHW.setText("");
         addHPW.setText("");
         addWPY.setText("");
         addYS.setText("");
+        employeeSex.clearSelection();
+        employeeLocation.clearSelection();
         employeeType.clearSelection();
+        partTimeVSFullTime.setSelectedIndex(0);
+        partTimeVSFullTime.setEnabled(false);
+        }      
     }//GEN-LAST:event_AddEmpActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -656,7 +931,7 @@ public class LandingPage extends javax.swing.JFrame {
                 int curSX = Integer.parseInt(readEmp[3]);
                 int curWL = Integer.parseInt(readEmp[4]);
                 double curDR = Double.parseDouble(readEmp[5]);
-                if (readEmp[6].equals("P")){
+                if (readEmp[6]=="P"){
                     Double curHW = Double.parseDouble(readEmp[7]);
                     int curHPW = Integer.parseInt(readEmp[8]);
                     int curWPY = Integer.parseInt(readEmp[9]);
@@ -711,6 +986,7 @@ public class LandingPage extends javax.swing.JFrame {
         partTimeVSFullTime.setEnabledAt(1, true);
         partTimeVSFullTime.setEnabledAt(2, false);
         partTimeVSFullTime.setSelectedIndex(1);
+        addYS.setText("");
     }//GEN-LAST:event_radioButtonPTActionPerformed
 
     private void radioButtonFTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonFTActionPerformed
@@ -720,6 +996,9 @@ public class LandingPage extends javax.swing.JFrame {
         partTimeVSFullTime.setEnabledAt(2, true);
         partTimeVSFullTime.setEnabledAt(1, false);
         partTimeVSFullTime.setSelectedIndex(2);
+        addHW.setText("");
+        addHPW.setText("");
+        addWPY.setText("");
     }//GEN-LAST:event_radioButtonFTActionPerformed
     
     Comparator<String[]> compEN = (String[] a, String[] b) -> {
@@ -799,7 +1078,7 @@ public class LandingPage extends javax.swing.JFrame {
         }
         return false;
     }
-    
+  
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -837,8 +1116,13 @@ public class LandingPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddEmp;
+    private javax.swing.JLabel EmployeeExistsDialog;
+    private javax.swing.JDialog EmployeeExistsError;
+    private javax.swing.JLabel InputErrorDialog;
     private javax.swing.JDialog InputErrorMsg;
     private javax.swing.JButton InputErrorMsgButton;
+    private javax.swing.JDialog MissingEntries;
+    private javax.swing.JLabel MissingEntriesDialog;
     private javax.swing.JButton SearchButton;
     private java.awt.TextField addDR;
     private java.awt.TextField addEN;
@@ -847,16 +1131,18 @@ public class LandingPage extends javax.swing.JFrame {
     private java.awt.TextField addHW;
     private javax.swing.JLabel addHeading;
     private java.awt.TextField addLN;
-    private java.awt.TextField addSX;
-    private java.awt.TextField addWL;
     private java.awt.TextField addWPY;
     private java.awt.TextField addYS;
     private javax.swing.JLabel displayHeading;
     private javax.swing.JTable empTable;
+    private javax.swing.JRadioButton employeeFemale;
+    private javax.swing.ButtonGroup employeeLocation;
+    private javax.swing.JRadioButton employeeMale;
+    private javax.swing.JRadioButton employeeOther;
+    private javax.swing.ButtonGroup employeeSex;
     private javax.swing.ButtonGroup employeeType;
     private javax.swing.JPanel fillerTab;
     private javax.swing.JPanel fullTimeTab;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private java.awt.Label labelDR;
     private java.awt.Label labelEN;
@@ -869,6 +1155,9 @@ public class LandingPage extends javax.swing.JFrame {
     private java.awt.Label labelWPY;
     private java.awt.Label labelYS;
     private javax.swing.JButton loadButton;
+    private javax.swing.JRadioButton locationChicago;
+    private javax.swing.JRadioButton locationMississauga;
+    private javax.swing.JRadioButton locationOttawa;
     private javax.swing.JPanel partTimeTab;
     private javax.swing.JTabbedPane partTimeVSFullTime;
     private javax.swing.JRadioButton radioButtonFT;
