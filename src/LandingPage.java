@@ -184,6 +184,7 @@ public class LandingPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         title.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -244,6 +245,12 @@ public class LandingPage extends javax.swing.JFrame {
         loadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadButtonActionPerformed(evt);
+            }
+        });
+
+        addDR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDRActionPerformed(evt);
             }
         });
 
@@ -518,21 +525,20 @@ public class LandingPage extends javax.swing.JFrame {
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(50, 50, 50)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(addDR, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                            .addComponent(locationMississauga)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(locationOttawa)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(locationChicago))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(employeeMale)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(employeeFemale)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(employeeOther)
-                                                            .addGap(48, 48, 48)))))))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                        .addComponent(locationMississauga)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(locationOttawa)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(locationChicago))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(employeeMale)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(employeeFemale)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(employeeOther)
+                                                        .addGap(48, 48, 48))
+                                                    .addComponent(addDR, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(31, 31, 31)
                                         .addComponent(radioButtonPT)
@@ -999,6 +1005,10 @@ public class LandingPage extends javax.swing.JFrame {
         addHPW.setText("");
         addWPY.setText("");
     }//GEN-LAST:event_radioButtonFTActionPerformed
+
+    private void addDRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDRActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addDRActionPerformed
     
     Comparator<String[]> compEN = (String[] a, String[] b) -> {
         int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
