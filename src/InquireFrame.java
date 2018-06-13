@@ -112,6 +112,8 @@ public class InquireFrame extends javax.swing.JFrame {
         InputErrorMsg = new javax.swing.JDialog();
         InputErrorMsgButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        EmployeeExistsError = new javax.swing.JDialog();
+        EmployeeExistsDialog = new javax.swing.JLabel();
         modifyEN = new javax.swing.JTextField();
         modifyFN = new javax.swing.JTextField();
         modifyLN = new javax.swing.JTextField();
@@ -177,7 +179,7 @@ public class InquireFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Error! You've done a funny :(");
+        jLabel1.setText("Error! Please check your input!");
 
         javax.swing.GroupLayout InputErrorMsgLayout = new javax.swing.GroupLayout(InputErrorMsg.getContentPane());
         InputErrorMsg.getContentPane().setLayout(InputErrorMsgLayout);
@@ -190,7 +192,7 @@ public class InquireFrame extends javax.swing.JFrame {
                     .addGroup(InputErrorMsgLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(InputErrorMsgButton)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         InputErrorMsgLayout.setVerticalGroup(
             InputErrorMsgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,6 +202,28 @@ public class InquireFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(InputErrorMsgButton)
                 .addGap(60, 60, 60))
+        );
+
+        EmployeeExistsError.setMinimumSize(new java.awt.Dimension(300, 200));
+        EmployeeExistsError.setResizable(false);
+
+        EmployeeExistsDialog.setText("Error! Employee already exists!");
+
+        javax.swing.GroupLayout EmployeeExistsErrorLayout = new javax.swing.GroupLayout(EmployeeExistsError.getContentPane());
+        EmployeeExistsError.getContentPane().setLayout(EmployeeExistsErrorLayout);
+        EmployeeExistsErrorLayout.setHorizontalGroup(
+            EmployeeExistsErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EmployeeExistsErrorLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(EmployeeExistsDialog)
+                .addContainerGap(94, Short.MAX_VALUE))
+        );
+        EmployeeExistsErrorLayout.setVerticalGroup(
+            EmployeeExistsErrorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EmployeeExistsErrorLayout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(EmployeeExistsDialog)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -511,7 +535,7 @@ public class InquireFrame extends javax.swing.JFrame {
             ArrayList<EmployeeInfo> currentAList = currentHT.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
                 if (saveEN != currentEmp.getEmployeeNum() && saveEN == currentAList.get(k).getEmployeeNum()){
-                    // display box here
+                    EmployeeExistsError.setVisible(true);
                     return;
                 }
             }
@@ -719,6 +743,8 @@ public class InquireFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_InputErrorMsgButtonActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel EmployeeExistsDialog;
+    private javax.swing.JDialog EmployeeExistsError;
     private javax.swing.JDialog InputErrorMsg;
     private javax.swing.JButton InputErrorMsgButton;
     private javax.swing.JDialog MissingEntries;
