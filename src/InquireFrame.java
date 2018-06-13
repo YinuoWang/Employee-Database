@@ -621,7 +621,7 @@ public class InquireFrame extends javax.swing.JFrame {
                 saveYS = Double.parseDouble(modifyYS.getText());
                 fullTimeEntry = true;
             }
-            else if (editYSEntry != ""){
+            else if (!editYSEntry.equals("")){
                 fullTimeEntry = true;
             }
             else {
@@ -636,13 +636,12 @@ public class InquireFrame extends javax.swing.JFrame {
         
         boolean everythingOK = false;
         if (entriesAreGood == true && sexSelected == true && locationSelected == true && jobStatus == true && workEntry == true){
-                everythingOK = true;
+            everythingOK = true;
         }
         
-        
         if (everythingOK == false){
-                        MissingEntries.setVisible(true);
-                        entryError = false;
+            MissingEntries.setVisible(true);
+            entryError = false;
         }
 
         else if (entryError == true){
