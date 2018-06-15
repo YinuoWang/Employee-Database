@@ -11,12 +11,6 @@ import java.util.HashSet;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
-/**
- *
- * @author yinuo
- */
-
 public class LandingPage extends javax.swing.JFrame {
     
     protected MyHashTable hashTable;
@@ -642,19 +636,15 @@ public class LandingPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchENActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchENActionPerformed
-        
     }//GEN-LAST:event_searchENActionPerformed
 
-    private void addENActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        
+    private void addENActionPerformed(java.awt.event.ActionEvent evt) {                                                 
     }
     
-    private void employeeMaleActionPerformed(java.awt.event.ActionEvent evt){
-        
+    private void employeeMaleActionPerformed(java.awt.event.ActionEvent evt){     
     }
     
-     private void addENKeyTyped(java.awt.event.KeyEvent evt){
-        
+     private void addENKeyTyped(java.awt.event.KeyEvent evt){      
     }
     
     private void searchEmpInFrame(int eN){
@@ -714,7 +704,7 @@ public class LandingPage extends javax.swing.JFrame {
             ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
                 if (isDuplicate(eN, currentAList.get(k))){
-                    // display box here
+                    EmployeeExistsError.setVisible(true);
                     return;
                 }
             }
@@ -824,7 +814,7 @@ public class LandingPage extends javax.swing.JFrame {
                 yS = Double.parseDouble(addYS.getText());
                 fullTimeEntry = true;
             }
-            else if (ysEntry != ""){
+            else if (!ysEntry.equals("")){
                 fullTimeEntry = true;
             }
             else {
@@ -844,8 +834,8 @@ public class LandingPage extends javax.swing.JFrame {
         
         
         if (everythingOK == false){
-                        MissingEntries.setVisible(true);
-                        entryError = false;
+            MissingEntries.setVisible(true);
+            entryError = false;
         }
 
         else if (entryError == true){
@@ -860,20 +850,19 @@ public class LandingPage extends javax.swing.JFrame {
                 hashTable.addEmployee(new FullTimeEmployee(eN, fN, lN, sX, wL, dR, yS));
 
             }
-            
-        addEN.setText("");
-        addFN.setText("");
-        addLN.setText("");
-        addDR.setText("");
-        addHW.setText("");
-        addHPW.setText("");
-        addWPY.setText("");
-        addYS.setText("");
-        employeeSex.clearSelection();
-        employeeLocation.clearSelection();
-        employeeType.clearSelection();
-        partTimeVSFullTime.setSelectedIndex(0);
-        partTimeVSFullTime.setEnabled(false);
+            addEN.setText("");
+            addFN.setText("");
+            addLN.setText("");
+            addDR.setText("");
+            addHW.setText("");
+            addHPW.setText("");
+            addWPY.setText("");
+            addYS.setText("");
+            employeeSex.clearSelection();
+            employeeLocation.clearSelection();
+            employeeType.clearSelection();
+            partTimeVSFullTime.setSelectedIndex(0);
+            partTimeVSFullTime.setEnabled(false);
         }      
     }//GEN-LAST:event_AddEmpActionPerformed
 
@@ -925,7 +914,6 @@ public class LandingPage extends javax.swing.JFrame {
                 }
             }
             while((empInfo = in.readLine()) != null){
-                // should i wipe the current hashtable or just add new stuff
                 String[] readEmp = empInfo.split(",");
                 int curEN = Integer.parseInt(readEmp[0]);
                 if (empList.contains(curEN)){
@@ -967,25 +955,26 @@ public class LandingPage extends javax.swing.JFrame {
         for (int i=0; i<bucketCount; ++i){
             ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
-                empTable.setValueAt(currentAList.get(k).getEmployeeNum(),row,0);
+                empTable.setValueAt(currentAList.get(k).getEmployeeNum(), row, 0);
                 empTable.setValueAt(currentAList.get(k).getFirstName(), row, 1);
                 empTable.setValueAt(currentAList.get(k).getLastName(), row, 2);
                 row++;
             }
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
-
+    
+    protected void callRefreshButton(java.awt.event.ActionEvent evt){
+        refreshButtonActionPerformed(evt);
+    }
+    
     private void InputErrorMsgButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputErrorMsgButtonActionPerformed
-            InputErrorMsg.setVisible(false);
-        // TODO add your handling code here:
+        InputErrorMsg.setVisible(false);
     }//GEN-LAST:event_InputErrorMsgButtonActionPerformed
 
     private void addYSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addYSActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_addYSActionPerformed
     
     private void radioButtonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonPTActionPerformed
-        // TODO add your handling code here:
         partTimeVSFullTime.setEnabled(true);
         partTimeVSFullTime.setEnabledAt(0, false);
         partTimeVSFullTime.setEnabledAt(1, true);
@@ -995,7 +984,6 @@ public class LandingPage extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonPTActionPerformed
 
     private void radioButtonFTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonFTActionPerformed
-        // TODO add your handling code here:
         partTimeVSFullTime.setEnabled(true);
         partTimeVSFullTime.setEnabledAt(0, false);
         partTimeVSFullTime.setEnabledAt(2, true);
@@ -1007,7 +995,6 @@ public class LandingPage extends javax.swing.JFrame {
     }//GEN-LAST:event_radioButtonFTActionPerformed
 
     private void addDRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDRActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_addDRActionPerformed
     
     Comparator<String[]> compEN = (String[] a, String[] b) -> {
@@ -1087,41 +1074,6 @@ public class LandingPage extends javax.swing.JFrame {
         }
         return false;
     }
-  
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(LandingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(LandingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(LandingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(LandingPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new LandingPage().setVisible(true);
-//            }
-//        });
-//    } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddEmp;

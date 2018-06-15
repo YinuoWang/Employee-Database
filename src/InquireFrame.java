@@ -4,10 +4,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
-/**
- *
- * @author yinuo
- */
 public class InquireFrame extends javax.swing.JFrame {
     /**
      * Creates new form InquireFrame
@@ -15,26 +11,6 @@ public class InquireFrame extends javax.swing.JFrame {
     protected EmployeeInfo currentEmp;
     protected MyHashTable currentHT;
     protected LandingPage currentLandingPage;
-    
-    public boolean isStringInt(String s){
-        try {
-            Integer.parseInt(s);
-            return true;
-        } 
-        catch (NumberFormatException ex){
-            return false;
-        }
-    }
-    
-        public boolean isStringDouble(String s){
-        try {
-            Double.parseDouble(s);
-            return true;
-        } 
-        catch (NumberFormatException ex){
-            return false;
-        }
-    }
     
     public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT, LandingPage cLP) {
         initComponents(); 
@@ -44,14 +20,16 @@ public class InquireFrame extends javax.swing.JFrame {
         modifyEN.setText(Integer.toString(currentEmp.getEmployeeNum()));
         modifyFN.setText(currentEmp.getFirstName());
         modifyLN.setText(currentEmp.getLastName());
-        if (currentEmp.getSex()== 0){
-            editSexMale.setSelected(true);
-        }
-        else if (currentEmp.getSex() == 1){
-            editSexFemale.setSelected(true);
-        }
-        else {
-            editSexOther.setSelected(true);
+        switch (currentEmp.getSex()) {
+            case 0:
+                editSexMale.setSelected(true);
+                break;
+            case 1:
+                editSexFemale.setSelected(true);
+                break;
+            default:
+                editSexOther.setSelected(true);
+                break;
         }
         
         switch (currentEmp.getWorkLocation()) {
@@ -93,6 +71,26 @@ public class InquireFrame extends javax.swing.JFrame {
                 currentLandingPage.setEnabled(true);
             }
         });
+    }
+    
+    public boolean isStringInt(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        } 
+        catch (NumberFormatException ex){
+            return false;
+        }
+    }
+    
+        public boolean isStringDouble(String s){
+        try {
+            Double.parseDouble(s);
+            return true;
+        } 
+        catch (NumberFormatException ex){
+            return false;
+        }
     }
 
     /**
@@ -510,15 +508,12 @@ public class InquireFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void modifyENActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyENActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_modifyENActionPerformed
 
     private void modifyFNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyFNActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_modifyFNActionPerformed
 
     private void modifyLNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyLNActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_modifyLNActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -668,54 +663,37 @@ public class InquireFrame extends javax.swing.JFrame {
             entryError = false;
         }
 
-        else if (entryError == true){
+        else if (entryError){
             InputErrorMsg.setVisible(true);
         }
         
-        else if (everythingOK == true){
-            
+        else if (everythingOK){
             if (saveEN != currentEmp.getEmployeeNum()){
-            currentHT.removeEmployee(currentEmp.getEmployeeNum());
+                currentHT.removeEmployee(currentEmp.getEmployeeNum());
+            }
             if (editButtonPT.isSelected()){
                 currentHT.addEmployee(new PartTimeEmployee(saveEN, saveFN, saveLN, saveSX, saveWL, saveDR, saveHW, saveHPW, saveWPY));
             }
             else{
                 currentHT.addEmployee(new FullTimeEmployee(saveEN, saveFN, saveLN, saveSX, saveWL, saveDR, saveYS));
             }
-            currentEmp = currentHT.searchEmployee(saveEN);
-        }
-        else{
-            currentEmp.setFirstName(saveFN); 
-            currentEmp.setLastName(saveLN);
-            currentEmp.setSex(saveSX);
-            currentEmp.setWorkLocation(saveWL);
-            currentEmp.setDeductionRate(saveDR);
-            if (editButtonPT.isSelected()){
-                PartTimeEmployee partEmp = (PartTimeEmployee)currentEmp;
-                partEmp.setHourlyWage(saveHW);
-                partEmp.setHoursPerWeek(saveHPW);
-                partEmp.setWeeksPerYear(saveWPY);
-            }
-            else{ // if employee is full time
-                ((FullTimeEmployee)currentEmp).setYearlySalary(saveYS);
-            }
         }
         currentLandingPage.setEnabled(true);
         this.setVisible(false);
-        }
+        currentLandingPage.callRefreshButton(evt);
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         currentHT.removeEmployee(currentEmp.getEmployeeNum());
+        currentLandingPage.setEnabled(true);
         this.setVisible(false);
+        currentLandingPage.callRefreshButton(evt);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void modifyDRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyDRActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_modifyDRActionPerformed
 
     private void editSexMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSexMaleActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_editSexMaleActionPerformed
 
     private void editButtonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPTActionPerformed
@@ -738,7 +716,6 @@ public class InquireFrame extends javax.swing.JFrame {
 
     private void InputErrorMsgButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputErrorMsgButtonActionPerformed
         InputErrorMsg.setVisible(false);
-        // TODO add your handling code here:
     }//GEN-LAST:event_InputErrorMsgButtonActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
