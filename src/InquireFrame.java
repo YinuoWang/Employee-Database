@@ -667,10 +667,8 @@ public class InquireFrame extends javax.swing.JFrame {
             InputErrorMsg.setVisible(true);
         }
         
-        else if (everythingOK){
-            if (saveEN != currentEmp.getEmployeeNum()){
-                currentHT.removeEmployee(currentEmp.getEmployeeNum());
-            }
+        else if (everythingOK){          
+            currentHT.removeEmployee(currentEmp.getEmployeeNum());
             if (editButtonPT.isSelected()){
                 currentHT.addEmployee(new PartTimeEmployee(saveEN, saveFN, saveLN, saveSX, saveWL, saveDR, saveHW, saveHPW, saveWPY));
             }

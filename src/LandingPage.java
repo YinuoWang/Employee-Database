@@ -863,6 +863,7 @@ public class LandingPage extends javax.swing.JFrame {
             employeeType.clearSelection();
             partTimeVSFullTime.setSelectedIndex(0);
             partTimeVSFullTime.setEnabled(false);
+            callRefreshButton(evt);
         }      
     }//GEN-LAST:event_AddEmpActionPerformed
 
@@ -935,6 +936,7 @@ public class LandingPage extends javax.swing.JFrame {
                     hashTable.addEmployee(new FullTimeEmployee(curEN, curFN, curLN, curSX, curWL, curDR, curYS));
                 }
             }
+            callRefreshButton(evt);
         }
         catch(IOException e){
             e.printStackTrace();
