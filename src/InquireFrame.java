@@ -1,17 +1,12 @@
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 public class InquireFrame extends javax.swing.JFrame {
-    /**
-     * Creates new form InquireFrame
-     */
+   
     protected EmployeeInfo currentEmp;
     protected MyHashTable currentHT;
     protected LandingPage currentLandingPage;
     
+    // Set fields of the frame to be equal to the attributes of the employee passed to the constructor
     public InquireFrame(EmployeeInfo cEmp, MyHashTable cHT, LandingPage cLP) {
         initComponents(); 
         currentEmp = cEmp;
@@ -71,26 +66,6 @@ public class InquireFrame extends javax.swing.JFrame {
                 currentLandingPage.setEnabled(true);
             }
         });
-    }
-    
-    public boolean isStringInt(String s){
-        try {
-            Integer.parseInt(s);
-            return true;
-        } 
-        catch (NumberFormatException ex){
-            return false;
-        }
-    }
-    
-        public boolean isStringDouble(String s){
-        try {
-            Double.parseDouble(s);
-            return true;
-        } 
-        catch (NumberFormatException ex){
-            return false;
-        }
     }
 
     /**
@@ -515,12 +490,14 @@ public class InquireFrame extends javax.swing.JFrame {
 
     private void modifyLNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyLNActionPerformed
     }//GEN-LAST:event_modifyLNActionPerformed
-
+    
+    // Method to save the employee created in the frame to the hashtable
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // Validating all inputs
         boolean entryError = false;       
         String editENEntry = modifyEN.getText();
         int saveEN = 0;
-        if (isStringInt(editENEntry) == true){
+        if (currentLandingPage.isStringInt(editENEntry) == true){
             saveEN = Integer.parseInt(modifyEN.getText());
         }
         else {
@@ -540,7 +517,7 @@ public class InquireFrame extends javax.swing.JFrame {
         
         String editEDEntry = modifyDR.getText();
         double saveDR = 0;
-        if (isStringDouble(editEDEntry) == true){
+        if (currentLandingPage.isStringDouble(editEDEntry) == true){
             saveDR = Double.parseDouble(modifyDR.getText());
         }
         else {
@@ -604,7 +581,7 @@ public class InquireFrame extends javax.swing.JFrame {
 
         if (editButtonPT.isSelected()){
             String editHWEntry = modifyHW.getText();
-            if (isStringDouble(editHWEntry) == true){
+            if (currentLandingPage.isStringDouble(editHWEntry) == true){
                 saveHW = Double.parseDouble(modifyHW.getText());
             }
             else {
@@ -612,7 +589,7 @@ public class InquireFrame extends javax.swing.JFrame {
             }
         
             String editHPWEntry = modifyHPW.getText();
-            if (isStringInt(editHPWEntry) == true){
+            if (currentLandingPage.isStringInt(editHPWEntry) == true){
                 saveHPW = Integer.parseInt(modifyHPW.getText());
             }
             else {
@@ -620,7 +597,7 @@ public class InquireFrame extends javax.swing.JFrame {
             }
         
             String editWPYEntry = modifyWPY.getText();
-            if (isStringInt(editWPYEntry) == true){
+            if (currentLandingPage.isStringInt(editWPYEntry) == true){
                 saveWPY = Integer.parseInt(modifyWPY.getText());
             }
             else {
@@ -636,7 +613,7 @@ public class InquireFrame extends javax.swing.JFrame {
         }
         else if (editButtonFT.isSelected()){
             String editYSEntry = modifyYS.getText();
-            if (isStringDouble(editYSEntry) == true){
+            if (currentLandingPage.isStringDouble(editYSEntry) == true){
                 saveYS = Double.parseDouble(modifyYS.getText());
                 fullTimeEntry = true;
             }
@@ -667,6 +644,7 @@ public class InquireFrame extends javax.swing.JFrame {
             InputErrorMsg.setVisible(true);
         }
         
+        // If inputs are validated, remove the employee passed to the constructor from the hashtable and add the new employee created
         else if (everythingOK){          
             currentHT.removeEmployee(currentEmp.getEmployeeNum());
             if (editButtonPT.isSelected()){
@@ -681,6 +659,7 @@ public class InquireFrame extends javax.swing.JFrame {
         currentLandingPage.callRefreshButton(evt);
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    // Method to delete the employee in the frame
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         currentHT.removeEmployee(currentEmp.getEmployeeNum());
         currentLandingPage.setEnabled(true);
@@ -694,6 +673,7 @@ public class InquireFrame extends javax.swing.JFrame {
     private void editSexMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSexMaleActionPerformed
     }//GEN-LAST:event_editSexMaleActionPerformed
 
+    // Method to ensure that only PT fields can be entered when PT button is true
     private void editButtonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPTActionPerformed
         editPartTimeVSFullTime.setEnabled(true);
         editPartTimeVSFullTime.setEnabledAt(1, true);
@@ -702,6 +682,7 @@ public class InquireFrame extends javax.swing.JFrame {
         modifyYS.setText("");
     }//GEN-LAST:event_editButtonPTActionPerformed
 
+    // Method to ensure that only FT fields can be entered when FT button is true
     private void editButtonFTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonFTActionPerformed
         editPartTimeVSFullTime.setEnabled(true);
         editPartTimeVSFullTime.setEnabledAt(0, false);

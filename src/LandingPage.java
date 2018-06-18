@@ -8,13 +8,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class LandingPage extends javax.swing.JFrame {
     
-    protected MyHashTable hashTable;
-    protected int bucketCount;
+    protected MyHashTable hashTable;    // hashtable to store employees
+    protected int bucketCount;          // number of buckets in the hashtable
 
     /**
      * Creates new form LandingPage
@@ -644,22 +642,24 @@ public class LandingPage extends javax.swing.JFrame {
     private void employeeMaleActionPerformed(java.awt.event.ActionEvent evt){     
     }
     
-     private void addENKeyTyped(java.awt.event.KeyEvent evt){      
+    private void addENKeyTyped(java.awt.event.KeyEvent evt){      
     }
     
+    // Search for employee method
     private void searchEmpInFrame(int eN){
         EmployeeInfo employeeFound = hashTable.searchEmployee(eN);
-        if (employeeFound == null){
+        if (employeeFound == null){                     // if no employee is found, display error message
             NoEmpFound noEmp = new NoEmpFound(this);
             noEmp.setVisible(true);
         }
-        else{
+        else{                                           // if employee is found, open edit employee frame
             InquireFrame iFrame = new InquireFrame(employeeFound, hashTable, this);
             iFrame.setVisible(true);
         }
     }
     
-    public boolean isStringInt(String s){
+    // Utility method to check if string can be converted to integer
+    protected boolean isStringInt(String s){
         try {
             Integer.parseInt(s);
             return true;
@@ -669,7 +669,8 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }
     
-        public boolean isStringDouble(String s){
+    // Utility method to check if string can be converted to double
+    protected boolean isStringDouble(String s){
         try {
             Double.parseDouble(s);
             return true;
@@ -679,6 +680,7 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }
     
+    // Method invoked when search button is clicked
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
         String searchEntry = searchEN.getText();
         if (isStringInt(searchEntry) == true){
@@ -690,7 +692,9 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
     
+    // Method invoked when employee is attempted to be added
     private void AddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddEmpActionPerformed
+        // Checking if employee number entered is an integer
         boolean entryError = false;       
         String enEntry = addEN.getText();
         int eN = 0;
@@ -700,6 +704,7 @@ public class LandingPage extends javax.swing.JFrame {
         else {
             entryError = true;
         }
+        // Chcecking if the employee already exists in the hashtable
         for (int i=0; i<bucketCount; ++i){
             ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
             for (int k=0; k<currentAList.size(); ++k){
@@ -709,6 +714,7 @@ public class LandingPage extends javax.swing.JFrame {
                 }
             }
         }
+        // Validating that inputs are of the correct type and are not null
         String fN = addFN.getText();
         String lN = addLN.getText();
         
@@ -842,6 +848,7 @@ public class LandingPage extends javax.swing.JFrame {
             InputErrorMsg.setVisible(true);
         }
         
+        // if inputs are good, add employee to hashtable and clear fields
         else if (everythingOK == true){
             if (radioButtonPT.isSelected()){
                 hashTable.addEmployee(new PartTimeEmployee(eN, fN, lN, sX, wL, dR, hW, hPW, wPY));
@@ -866,7 +873,8 @@ public class LandingPage extends javax.swing.JFrame {
             callRefreshButton(evt);
         }      
     }//GEN-LAST:event_AddEmpActionPerformed
-
+    
+    // Method to save employees in the hashtable to a textfile
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try{
             BufferedWriter out = new BufferedWriter(new FileWriter("saveFile.txt"));
@@ -902,12 +910,13 @@ public class LandingPage extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_saveButtonActionPerformed
-
+    
+    // Method to laod employees from the textfile into the hashtable
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
         try{
             BufferedReader in = new BufferedReader(new FileReader("saveFile.txt"));
             String empInfo;
-            HashSet<Integer> empList = new HashSet();
+            HashSet<Integer> empList = new HashSet();           // HashSet of all existing employees
             for (int i=0; i<bucketCount; ++i){
                 ArrayList<EmployeeInfo> currentAList = hashTable.buckets[i];
                 for (int k=0; k<currentAList.size(); ++k){
@@ -917,7 +926,7 @@ public class LandingPage extends javax.swing.JFrame {
             while((empInfo = in.readLine()) != null){
                 String[] readEmp = empInfo.split(",");
                 int curEN = Integer.parseInt(readEmp[0]);
-                if (empList.contains(curEN)){
+                if (empList.contains(curEN)){                   // if employee is already in the hashtable, skip iteration of loop
                     continue;
                 }
                 String curFN = readEmp[1];
@@ -942,7 +951,8 @@ public class LandingPage extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_loadButtonActionPerformed
-
+    
+    // Method to empty the display employee table
     private void clearTableContents(){
         for (int i=0; i<empTable.getRowCount(); ++i){
             for (int j=0; j<empTable.getColumnCount(); ++j){
@@ -951,6 +961,7 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }
     
+    // Method to update contents of display employee table
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         clearTableContents();
         int row = 0;
@@ -965,10 +976,11 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
     
+    // Method so that refreshButtonActionPerformed can be called from other classes
     protected void callRefreshButton(java.awt.event.ActionEvent evt){
         refreshButtonActionPerformed(evt);
     }
-    
+   
     private void InputErrorMsgButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputErrorMsgButtonActionPerformed
         InputErrorMsg.setVisible(false);
     }//GEN-LAST:event_InputErrorMsgButtonActionPerformed
@@ -976,6 +988,7 @@ public class LandingPage extends javax.swing.JFrame {
     private void addYSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addYSActionPerformed
     }//GEN-LAST:event_addYSActionPerformed
     
+    // Method to ensure that only PT fields can be entered when PT button is true
     private void radioButtonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonPTActionPerformed
         partTimeVSFullTime.setEnabled(true);
         partTimeVSFullTime.setEnabledAt(0, false);
@@ -985,6 +998,7 @@ public class LandingPage extends javax.swing.JFrame {
         addYS.setText("");
     }//GEN-LAST:event_radioButtonPTActionPerformed
 
+    // Method to ensure that only FT fields can be entered when FT button is true
     private void radioButtonFTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonFTActionPerformed
         partTimeVSFullTime.setEnabled(true);
         partTimeVSFullTime.setEnabledAt(0, false);
@@ -999,6 +1013,7 @@ public class LandingPage extends javax.swing.JFrame {
     private void addDRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDRActionPerformed
     }//GEN-LAST:event_addDRActionPerformed
     
+    // Comparator that sorts employees based on Employee Number first (least to greatest)
     Comparator<String[]> compEN = (String[] a, String[] b) -> {
         int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
         if (Ai == Bi){
@@ -1012,6 +1027,7 @@ public class LandingPage extends javax.swing.JFrame {
         }
     };
     
+    // Comparator that sorts employees based on First Name first (lexicographically least to greatest)
     Comparator<String[]> compFN = (String[] a, String[] b) -> {
         int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
         if (a[1].equals(b[1])){
@@ -1025,6 +1041,7 @@ public class LandingPage extends javax.swing.JFrame {
         }
     };
     
+    // Comparator that sorts employees based on Last Name first (lexicographically least to greatest)
     Comparator<String[]> compLN = (String[] a, String[] b) -> {
         int Ai = Integer.parseInt(a[0]), Bi = Integer.parseInt(b[0]);
         if (a[2].equals(b[2])){
@@ -1038,6 +1055,7 @@ public class LandingPage extends javax.swing.JFrame {
         }
     };
 
+    // Method to sort the display employee table
     private void sortTable(int col, int clicked){
         int row = 0;
         ArrayList<String[]> empsList = new ArrayList();
@@ -1060,7 +1078,7 @@ public class LandingPage extends javax.swing.JFrame {
                 Collections.sort(empsList, compLN);
                 break;
         }
-        if (clicked==2){
+        if (clicked==2){ // Reversing the order of the list if sort was already pressed once
             Collections.reverse(empsList);
         }
         for (int i=0; i<row; ++i){
@@ -1070,7 +1088,8 @@ public class LandingPage extends javax.swing.JFrame {
         }
     }
     
-    protected boolean isDuplicate(int currentEN, EmployeeInfo existing){
+    // Utility method to compare an integer and an EmployeeInfo object's Employee Number
+    private boolean isDuplicate(int currentEN, EmployeeInfo existing){
         if (currentEN == existing.getEmployeeNum()){
             return true;
         }
