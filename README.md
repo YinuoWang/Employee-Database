@@ -15,7 +15,7 @@ When adding or editing an employee, the following attributes are used:
 Depending on the Employee Type selected, additional attributes are available: hourly wage, hours worked/week, and weeks worked/year for **part-time;** yearly salary is available for **full-time** employees.
 
 ## Landing Page
-![alt text] (https://github.com/YinuoWang/Employee-Database/blob/master/Pictures/Landing%20Page.png)
+![alt text](https://github.com/YinuoWang/Employee-Database/blob/master/Pictures/Landing%20Page.png)
 
 Upon opening the Employee Database, you will be brought to this frame. If you already have previous data that you would like to import, ensure that the .txt file is placed in the Employee Database Folder. From there, you can click Load from Text File (bottom left of screen), and then refresh (bottom right corner) to display the employees.
 
